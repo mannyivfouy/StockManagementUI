@@ -1,1 +1,30 @@
-<p>register works!</p>
+<div class="login-container d-flex">
+
+     <!-- Right: Image Section -->
+     <div class="col-md-6 login-image d-none d-md-block"></div>
+     <!-- Left: Form Section -->
+     <div class="col-md-6 form-section">
+          <h2 class="mb-4 fw-bold">Login</h2>
+
+          <form>               
+               <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input id="email" type="email" class="form-control" placeholder="Enter your email" />
+               </div>
+
+               <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control" placeholder="Enter your password" />
+               </div>
+
+               <button type="submit" class="btn btn-primary w-100 mt-2">
+                    Register
+               </button>
+
+               <div class="mt-3 text-center">
+                    <small>Already Have Account?</small> <small class="text-primary register-btn"
+                         routerLink="/login">Login</small>
+               </div>
+          </form>
+     </div>
+</div>

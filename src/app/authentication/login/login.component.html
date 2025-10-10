@@ -1,39 +1,44 @@
 <div class="login-container d-flex">
-  <!-- Left: Form Section -->
-  <div class="col-md-6 form-section">
-    <h2 class="mb-4 fw-bold">Login</h2>
+     <!-- Left: Form Section -->
+     <div class="col-md-6 form-section">
+          <h2 class="mb-4 fw-bold">Login</h2>
 
-    <form>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input
-          id="email"
-          type="email"
-          class="form-control"
-          placeholder="Enter your email"
-        />
-      </div>
+          <form>
+               <div class="input-group my-3">
+                    <span class="input-group-text bg-primary text-white">
+                         <i class="bi bi-person-fill"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" required
+                         ng-touched ng-dirty is-invalid ng-invalid>
+               </div>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input
-          id="password"
-          type="password"
-          class="form-control"
-          placeholder="Enter your password"
-        />
-      </div>
+               <div class="input-group my-3">
+                    <span class="input-group-text bg-primary text-white">
+                         <i class="bi bi-person-fill"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" required
+                         ng-touched ng-dirty is-invalid ng-invalid>
+               </div>
 
-      <button type="submit" class="btn btn-primary w-100 mt-2">
-        Login
-      </button>
+               <div class="input-group my-3">
+                    <span class="input-group-text bg-primary text-white">
+                         <i class="bi bi-person-fill"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" required
+                         ng-touched ng-dirty is-invalid ng-invalid>
+               </div>
 
-      <div class="mt-3 text-center">
-        <small>Don't have an account?</small> <small class="text-primary register-btn" routerLink="/register">Register</small>
-      </div>
-    </form>
-  </div>
+               <button type="submit" class="btn btn-primary w-100 mt-2">
+                    Login
+               </button>
 
-  <!-- Right: Image Section -->
-  <div class="col-md-6 login-image d-none d-md-block"></div>
+               <div class="mt-3 text-center">
+                    <small>Don't have an account?</small> <small class="text-primary register-btn"
+                         routerLink="/register"> Register</small>
+               </div>
+          </form>
+     </div>
+
+     <!-- Right: Image Section -->
+     <div class="col-md-6 login-image d-none d-md-block"></div>
 </div>
