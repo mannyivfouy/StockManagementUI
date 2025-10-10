@@ -1,31 +1,29 @@
-<div class="login-container d-flex">
-     <!-- Left: Form Section -->
+<div class="login-container d-flex">     
      <div class="col-md-6 form-section">
-          <h2 class="mb-4 fw-bold">Login</h2>
-
+          <h2 class="mb-4 fw-bold text-center">Sign In</h2>
           <form>
-               <div class="input-group my-3">
+               <div class="input-group my-4">
                     <span class="input-group-text bg-primary text-white">
                          <i class="bi bi-person-fill"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" required
+                    <input type="text" class="form-control" placeholder="Enter Your Username" name="username" required
                          ng-touched ng-dirty is-invalid ng-invalid>
                </div>
 
-               <div class="input-group my-3">
+               <div class="input-group my-4">
                     <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-person-fill"></i>
+                         <i class="bi bi-envelope-fill"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" required
+                    <input type="email" class="form-control" placeholder="Enter Your Email" name="email" required
                          ng-touched ng-dirty is-invalid ng-invalid>
                </div>
 
-               <div class="input-group my-3">
+               <div class="input-group my-4">
                     <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-person-fill"></i>
+                         <i class="bi bi-lock-fill"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" required
-                         ng-touched ng-dirty is-invalid ng-invalid>
+                    <input type="password" class="form-control" placeholder="Enter Your Password" name="password"
+                         required ng-touched ng-dirty is-invalid ng-invalid>
                </div>
 
                <button type="submit" class="btn btn-primary w-100 mt-2">
@@ -38,7 +36,10 @@
                </div>
           </form>
      </div>
-
-     <!-- Right: Image Section -->
-     <div class="col-md-6 login-image d-none d-md-block"></div>
+     
+     <div class="col-md-6 login-image d-none d-md-block">
+          <h1 class="fw-bold text-white">
+               Welcome
+          </h1>
+     </div>
 </div>
