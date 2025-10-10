@@ -1,3 +1,90 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './authentication/login/login.component';
+import { RegisterComponent } from './authentication/register/register.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { authGuard } from './guards/auth.guard';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { UserFormComponent } from './pages/user/user-form/user-form.component';
+import { ProductListComponent } from './pages/product/product-list/product-list.component';
+import { ProductFormComponent } from './pages/product/product-form/product-form.component';
+import { CategoryListComponent } from './pages/category/category-list/category-list.component';
+import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'dashboaard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'user',
+        children: [
+          {
+            path: '',
+            component: UserListComponent,
+          },
+          {
+            path: 'createUser',
+            component: UserFormComponent,
+          },
+          {
+            path: 'editUser/:id',
+            component: UserFormComponent,
+          },
+        ],
+      },
+      {
+        path: 'product',
+        children: [
+          {
+            path: '',
+            component: ProductListComponent,
+          },
+          {
+            path: 'createProduct',
+            component: ProductFormComponent,
+          },
+          {
+            path: 'editProduct/:id',
+            component: ProductFormComponent,
+          },
+        ],
+      },
+      {
+        path: 'category',
+        children: [
+          {
+            path: '',
+            component: CategoryListComponent,
+          },
+          {
+            path: 'createCategory',
+            component: CategoryFormComponent,
+          },
+          {
+            path: 'editCategory/:id',
+            component: CategoryFormComponent,
+          },
+        ],
+      },
+    ],
+  },
+];
