@@ -31,7 +31,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'dashboaard',
+        path: 'dashboard',
         component: DashboardComponent,
       },
       {

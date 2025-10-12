@@ -7,23 +7,31 @@
                     <span class="input-group-text bg-primary text-white">
                          <i class="bi bi-person-lines-fill"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Enter Your Fullname" name="fullname" required
-                         ng-touched ng-dirty is-invalid ng-invalid>
+                    <input type="text" class="form-control" placeholder="Fullname" name="fullname" required ng-touched
+                         ng-dirty is-invalid ng-invalid>
                </div>
 
                <div class="input-group my-4">
                     <span class="input-group-text bg-primary text-white">
                          <i class="bi bi-person-fill"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Enter Your Username" name="username" required
-                         ng-touched ng-dirty is-invalid ng-invalid>
+                    <input type="text" class="form-control" placeholder="Username" name="username" required ng-touched
+                         ng-dirty is-invalid ng-invalid>
                </div>
 
                <div class="input-group my-4">
                     <span class="input-group-text bg-primary text-white">
                          <i class="bi bi-envelope-fill"></i>
                     </span>
-                    <input type="email" class="form-control" placeholder="Enter Your Email" name="email" required
+                    <input type="email" class="form-control" placeholder="Email" name="email" required ng-touched
+                         ng-dirty is-invalid ng-invalid>
+               </div>
+
+               <div class="input-group my-4">
+                    <span class="input-group-text bg-primary text-white">
+                         <i class="bi bi-lock-fill"></i>
+                    </span>
+                    <input type="password" class="form-control" placeholder="Password" name="password" required
                          ng-touched ng-dirty is-invalid ng-invalid>
                </div>
 
@@ -31,16 +39,8 @@
                     <span class="input-group-text bg-primary text-white">
                          <i class="bi bi-lock-fill"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="Enter Your Password" name="password" required
-                         ng-touched ng-dirty is-invalid ng-invalid>
-               </div>
-
-               <div class="input-group my-4">
-                    <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-lock-fill"></i>
-                    </span>
-                    <input type="password" class="form-control" placeholder="Enter Your Confirm Password" name="confirm password" required
-                         ng-touched ng-dirty is-invalid ng-invalid>
+                    <input type="password" class="form-control" placeholder="Confirm Password" name="confirm password"
+                         required ng-touched ng-dirty is-invalid ng-invalid>
                </div>
 
                <button type="submit" class="btn btn-primary w-100 mt-2">
@@ -48,8 +48,8 @@
                </button>
 
                <div class="mt-3 text-center">
-                    <small>Already Have Account?</small> <small class="text-primary register-btn"
-                         routerLink="/login"> Register</small>
+                    <small>Already Have Account?</small> <small class="text-primary register-btn" routerLink="/login">
+                         Register</small>
                </div>
           </form>
      </div>
