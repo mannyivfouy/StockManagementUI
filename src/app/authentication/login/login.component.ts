@@ -33,8 +33,7 @@ export class LoginComponent {
   }
 
   submitLogin() {
-    this.loginForm.reset();
-    // localStorage.setItem('isLoggedIn', 'true');
+    this.loginForm.reset();    
     this.router.navigate(['/dashboard']);
   }
 }

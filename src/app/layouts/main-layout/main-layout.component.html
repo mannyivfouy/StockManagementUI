@@ -1,6 +1,14 @@
-<div class="d-flex vh-100">
-  <app-sidebar></app-sidebar> <!-- Left panel -->
-  <main class="flex-grow-1 p-4 overflow-auto">
-    <router-outlet></router-outlet> <!-- Right panel -->
-  </main>
+<!-- src/app/layout/layout.component.html -->
+<div class="d-flex flex-column vh-100">
+  <!-- HEADER -->
+  <app-header></app-header>
+
+  <!-- BODY -->
+  <div class="d-flex flex-grow-1 overflow-hidden">
+    <app-sidebar></app-sidebar>
+
+    <main class="flex-grow-1 p-4 overflow-auto bg-light">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
