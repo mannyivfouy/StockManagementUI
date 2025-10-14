@@ -1,12 +1,79 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
+  showPassword = false;
 
+  constructor(private fb: FormBuilder, private router: Router) {}
+
+  registerForm = new FormGroup(
+    {
+      fullname: new FormControl('', Validators.required),
+      username: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      confirmPassword: new FormControl('', Validators.required),
+    },
+    { validators: this.matchPasswords }
+  );
+
+  matchPasswords(group: AbstractControl) {
+    const pass = group.get('password')?.value;
+    const confirm = group.get('confirmPassword')?.value;
+    return pass === confirm ? null : { passwordMismatch: true };
+  }
+
+  get fullname() {
+    return this.registerForm.get('fullname');
+  }
+
+  get username() {
+    return this.registerForm.get('username');
+  }
+
+  get gender() {
+    return this.registerForm.get('gender');
+  }
+
+  get dateOfBirth() {
+    return this.registerForm.get('dateOfBirth');
+  }
+
+  get email() {
+    return this.registerForm.get('email');
+  }
+
+  get password() {
+    return this.registerForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.registerForm.get('confirmPassword');
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  submitRegister() {
+    this.registerForm.reset();
+    this.router.navigate(['/dashboard']);
+  }
 }

@@ -1,58 +1,278 @@
 <div class="register-container d-flex">
-     <div class="col-md-6 form-section">
-          <h2 class="mb-4 fw-bold text-center">Sign Up</h2>
+  <div class="col-md-6 form-section">
+    <h2 class="mb-4 fw-bold text-center">Sign Up</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+      <div class="my-1">
+        <label for="inputPassword" class="form-label">Fullname</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-person-fill"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Your Fullname"
+            formControlName="fullname"
+            [ngClass]="{
+              'is-invalid':
+                fullname?.invalid && (fullname?.dirty || fullname?.touched)
+            }"
+          />
 
-          <form>
-               <div class="input-group my-2">
-                    <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-person-lines-fill"></i>
-                    </span>
-                    <input type="text" class="form-control" placeholder="Fullname" name="fullname" required ng-touched
-                         ng-dirty is-invalid ng-invalid>
-               </div>
+          <span
+            *ngIf="fullname?.invalid && (fullname?.dirty || fullname?.touched)"
+            class="position-absolute end-0 top-50 translate-middle-y me-3 text-danger"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+          </span>
+        </div>
+        <span
+          class="small text-danger"
+          *ngIf="fullname?.invalid && (fullname?.dirty || fullname?.touched)"
+        >
+          Fullname is Required
+        </span>
+      </div>
 
-               <div class="input-group my-2">
-                    <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-person-fill"></i>
-                    </span>
-                    <input type="text" class="form-control" placeholder="Username" name="username" required ng-touched
-                         ng-dirty is-invalid ng-invalid>
-               </div>
+      <div class="my-1">
+        <label for="inputPassword" class="form-label">Username</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-person-fill"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Your Username"
+            formControlName="username"
+            [ngClass]="{
+              'is-invalid':
+                username?.invalid && (username?.dirty || username?.touched)
+            }"
+          />
 
-               <div class="input-group my-2">
-                    <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-envelope-fill"></i>
-                    </span>
-                    <input type="email" class="form-control" placeholder="Email" name="email" required ng-touched
-                         ng-dirty is-invalid ng-invalid>
-               </div>
+          <span
+            *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+            class="position-absolute end-0 top-50 translate-middle-y me-3 text-danger"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+          </span>
+        </div>
+        <span
+          class="small text-danger"
+          *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+        >
+          Username is Required
+        </span>
+      </div>
 
-               <div class="input-group my-2">
-                    <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-lock-fill"></i>
-                    </span>
-                    <input type="password" class="form-control" placeholder="Password" name="password" required
-                         ng-touched ng-dirty is-invalid ng-invalid>
-               </div>
+      <div class="my-1">
+        <label for="gender" class="form-label">Gender</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-gender-ambiguous"></i>
+          </span>
+          <select
+            class="form-select"
+            id="gender"
+            formControlName="gender"
+            [ngClass]="{
+              'is-invalid':
+                gender?.invalid && (gender?.dirty || gender?.touched)
+            }"
+          >
+            <option value="" disabled>Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <span
+            *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
+            class="position-absolute end-0 top-50 translate-middle-y me-3 text-danger"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+          </span>
+        </div>
+        <span
+          class="small text-danger"
+          *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
+        >
+          Gender is required
+        </span>
+      </div>
 
-               <div class="input-group my-2">
-                    <span class="input-group-text bg-primary text-white">
-                         <i class="bi bi-lock-fill"></i>
-                    </span>
-                    <input type="password" class="form-control" placeholder="Confirm Password" name="confirm password"
-                         required ng-touched ng-dirty is-invalid ng-invalid>
-               </div>
+      <div class="my-1">
+        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-calendar-date"></i>
+          </span>
+          <input
+            type="date"
+            class="form-control"
+            id="dateOfBirth"
+            formControlName="dateOfBirth"
+            [ngClass]="{
+              'is-invalid':
+                dateOfBirth?.invalid &&
+                (dateOfBirth?.dirty || dateOfBirth?.touched)
+            }"
+          />
+          <span
+            *ngIf="
+              dateOfBirth?.invalid &&
+              (dateOfBirth?.dirty || dateOfBirth?.touched)
+            "
+            class="position-absolute end-0 top-50 translate-middle-y me-3 text-danger"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+          </span>
+        </div>
+        <span
+          class="small text-danger"
+          *ngIf="
+            dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched)
+          "
+        >
+          Date of birth is required
+        </span>
+      </div>
 
-               <button type="submit" class="btn btn-primary w-100 mt-2">
-                    Login
-               </button>
+      <div class="my-1">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-envelope-fill"></i>
+          </span>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter Your Email"
+            formControlName="email"
+            [ngClass]="{
+              'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+            }"
+          />
+          <span
+            *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+            class="position-absolute end-0 top-50 translate-middle-y me-3 text-danger"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+          </span>
+        </div>
 
-               <div class="mt-3 text-center">
-                    <small>Already Have Account?</small> <small class="text-primary register-btn" routerLink="/login">
-                         Register</small>
-               </div>
-          </form>
-     </div>
+        <span
+          class="small text-danger"
+          *ngIf="
+            email?.hasError('required') && (email?.dirty || email?.touched)
+          "
+        >
+          Email is required
+        </span>
 
-     <div class="col-md-6 register-image d-none d-md-block"></div>
+        <span
+          class="small text-danger"
+          *ngIf="email?.hasError('email') && (email?.dirty || email?.touched)"
+        >
+          Please enter a valid email address
+        </span>
+      </div>
+
+      <div class="my-1">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-lock-fill"></i>
+          </span>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Enter Your Password"
+            formControlName="password"
+            [ngClass]="{
+              'is-invalid':
+                password?.invalid && (password?.dirty || password?.touched)
+            }"
+          />
+          <span
+            class="input-group-text bg-primary text-white"
+            role="button"
+            (click)="togglePasswordVisibility()"
+          >
+            <i
+              [ngClass]="
+                showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'
+              "
+            ></i>
+          </span>
+        </div>
+        <span
+          class="small text-danger"
+          *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+        >
+          Password is required
+        </span>
+      </div>
+
+      <div class="my-1">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="bi bi-lock-fill"></i>
+          </span>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Enter Your Confirm Password"
+            formControlName="confirmPassword"
+            [ngClass]="{
+              'is-invalid':
+                confirmPassword?.invalid &&
+                (confirmPassword?.dirty || confirmPassword?.touched)
+            }"
+          />
+          <span
+            class="input-group-text bg-primary text-white"
+            role="button"
+            (click)="togglePasswordVisibility()"
+          >
+            <i
+              [ngClass]="
+                showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'
+              "
+            ></i>
+          </span>
+        </div>
+        <span
+          class="small text-danger"
+          *ngIf="
+            confirmPassword?.invalid &&
+            (confirmPassword?.dirty || confirmPassword?.touched)
+          "
+        >
+          Please confirm your password
+        </span>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100 mt-3"
+        [disabled]="registerForm.invalid"
+      >
+        <span>
+          <i class="bi bi-box-arrow-in-right"></i>
+        </span>
+        Register
+      </button>
+
+      <div class="mt-3 text-center">
+        <small>Already have account?</small>
+        <small class="text-primary register-btn" routerLink="/login">
+          Login</small
+        >
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-6 register-image d-none d-md-block"></div>
 </div>

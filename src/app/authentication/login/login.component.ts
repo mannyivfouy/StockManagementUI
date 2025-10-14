@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -16,8 +17,9 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  showPassword = false;
 
-  constructor(private router : Router){}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -32,8 +34,12 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   submitLogin() {
-    this.loginForm.reset();    
+    this.loginForm.reset();
     this.router.navigate(['/dashboard']);
   }
 }
