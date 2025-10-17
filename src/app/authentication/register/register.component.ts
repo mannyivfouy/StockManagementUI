@@ -22,23 +22,15 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder, private router: Router) {}
 
   registerForm = new FormGroup(
-    {
+    {      
       fullname: new FormControl('', Validators.required),
       username: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-      confirmPassword: new FormControl('', Validators.required),
-    },
-    { validators: this.matchPasswords }
+      password: new FormControl('', Validators.required),      
+    },    
   );
-
-  matchPasswords(group: AbstractControl) {
-    const pass = group.get('password')?.value;
-    const confirm = group.get('confirmPassword')?.value;
-    return pass === confirm ? null : { passwordMismatch: true };
-  }
 
   get fullname() {
     return this.registerForm.get('fullname');
@@ -62,10 +54,6 @@ export class RegisterComponent {
 
   get password() {
     return this.registerForm.get('password');
-  }
-
-  get confirmPassword() {
-    return this.registerForm.get('confirmPassword');
   }
 
   togglePasswordVisibility() {

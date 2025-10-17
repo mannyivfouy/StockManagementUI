@@ -1,1 +1,65 @@
-<p>user-list works!</p>
+<div class="container mt-4">
+  <h3>Users</h3>
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table
+    *ngIf="!loading && user.length"
+    class="table table-striped table-bordered align-middle"
+  >
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Avatar</th>
+        <th>UserID</th>
+        <th>Fullname</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>D.O.B</th>
+        <th>Gender</th>
+        <th>Role</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of user; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td style="width: 48px">
+          <img
+            [src]="avatarUrl(u)"
+            alt="avatar"
+            style="
+              width: 40px;
+              height: 40px;
+              object-fit: cover;
+              border-radius: 4px;
+            "
+          />
+        </td>
+        <td>{{ u.userID }}</td>
+        <td>{{ u.fullname }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.dateOfBirth | date : "mediumDate" }}</td>
+        <td>{{ u.gender }}</td>
+        <td>{{ u.role }}</td>
+        <td>{{ u.created_date | date : "short" }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="confirmAndDelete(u.username)"
+            [disabled]="!u.username"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !user.length" class="text-center">
+    No users found.
+  </div>
+</div>

@@ -28,11 +28,12 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        data: { title: 'Dashboard' },
       },
       {
         path: 'user',
@@ -40,6 +41,7 @@ export const routes: Routes = [
           {
             path: '',
             component: UserListComponent,
+            data: { title: 'Users' },
           },
           {
             path: 'createUser',
@@ -57,6 +59,7 @@ export const routes: Routes = [
           {
             path: '',
             component: ProductListComponent,
+            data: { title: 'Products' },
           },
           {
             path: 'createProduct',
@@ -74,6 +77,7 @@ export const routes: Routes = [
           {
             path: '',
             component: CategoryListComponent,
+            data: { title: 'Categories' },
           },
           {
             path: 'createCategory',

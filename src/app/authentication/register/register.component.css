@@ -9,16 +9,16 @@
 
 /* Main container */
 .register-container {
-  width: 1400px;
+  width: 1200px;
   max-width: 100%;
-  height: 900px;
+  height: 600px;
   background-color: #fff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Form section styling */
+/* Form s6ection styling */
 .form-section {
   padding: 60px;
   height: 100%;

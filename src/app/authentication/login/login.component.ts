@@ -18,6 +18,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   showPassword = false;
+  loading = false;
+  error: string | null = null;
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
