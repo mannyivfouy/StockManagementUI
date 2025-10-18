@@ -1,8 +1,5 @@
 <div class="d-flex vh-100">
-  <!-- LEFT SIDEBAR -->
   <app-sidebar></app-sidebar>
-
-  <!-- RIGHT SECTION (Header + Main Content) -->
   <div
     class="d-flex flex-column flex-grow-1"
     [ngStyle]="{
@@ -10,10 +7,7 @@
       transition: 'opacity 0.4s ease-in-out'
     }"
   >
-    <!-- HEADER -->
     <app-header></app-header>
-
-    <!-- MAIN CONTENT -->
     <main
       class="flex-grow-1 p-4 overflow-auto bg-light"
       [ngStyle]="{

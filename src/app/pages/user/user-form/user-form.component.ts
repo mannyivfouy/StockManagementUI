@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-user-form',
   imports: [],
   templateUrl: './user-form.component.html',
-  styleUrl: './user-form.component.css'
+  styleUrl: './user-form.component.css',
 })
-export class UserFormComponent {
-
-}
+export class UserFormComponent {}

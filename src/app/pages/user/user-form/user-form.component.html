@@ -1,1 +1,134 @@
-<p>user-form works!</p>
+<div class="container-fluid" style="width: 100%; height: 100%">
+  <div class="row mb-4">
+    <h3>Personal Information</h3>
+  </div>
+  <div class="row">
+    <form action="">
+      <div class="row">
+        <div class="col-md-6 my-3">
+          <label for="fullname" class="form-label">Fullname</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-person-lines-fill"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Fullname"
+              formControlName="fullname"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Username"
+              formControlName="username"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="gender" class="form-label">Gender</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-gender-ambiguous"></i>
+            </span>
+            <select class="form-select" formControl="gender">
+              <option value="" disabled>Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="dateOfBirth" class="form-label">Date of Birth</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-calendar-date-fill"></i>
+            </span>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="dateOfBirth"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="email" class="form-label">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-envelope-fill"></i>
+            </span>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter Email Address"
+              formControlName="email"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Enter Password"
+              formControlName="password"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="avatar" class="form-label">Avatar</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-image"></i>
+            </span>
+            <input
+              type="file"
+              class="form-control"              
+              formControlName="avatar"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 my-3">
+          <label for="userRole" class="form-label">User Role</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-person-fill-gear"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter User Role"
+              formControlName="userRole"
+            />
+          </div>
+        </div>
+
+        <div class="col d-flex justify-content-end">
+          <button class="btn btn-outline-primary my-3" style="width: 150px;">
+            <i class="bi bi-floppy-fill me-1"></i>
+            Save User
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
