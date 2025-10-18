@@ -11,18 +11,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './main-layout.component.css',
 })
 export class MainLayoutComponent {
-  pageOpacity = 1;
-  pageScale = 1;
+  pageOpacity = 0 ;  
 
-  onRouteChange() {
-    // Start fade-out and slight shrink
-    this.pageOpacity = 0;
-    this.pageScale = 0.95;
+  onRouteChange() {    
+    this.pageOpacity = 0;    
 
-    setTimeout(() => {
-      // Fade-in and restore scale
-      this.pageOpacity = 1;
-      this.pageScale = 1;
-    }, 300); // Delay matches the transition duration
+    setTimeout(() => {      
+      this.pageOpacity = 1;      
+    }, 500);
   }
 }

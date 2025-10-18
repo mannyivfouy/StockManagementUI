@@ -3,7 +3,13 @@
   <app-sidebar></app-sidebar>
 
   <!-- RIGHT SECTION (Header + Main Content) -->
-  <div class="d-flex flex-column flex-grow-1">
+  <div
+    class="d-flex flex-column flex-grow-1"
+    [ngStyle]="{
+      opacity: pageOpacity,
+      transition: 'opacity 0.4s ease-in-out'
+    }"
+  >
     <!-- HEADER -->
     <app-header></app-header>
 
@@ -12,8 +18,7 @@
       class="flex-grow-1 p-4 overflow-auto bg-light"
       [ngStyle]="{
         opacity: pageOpacity,
-        transform: 'scale(' + pageScale + ')',
-        transition: 'opacity 0.4s ease-in-out, transform 0.4s ease-in-out'
+        transition: 'opacity 0.4s ease-in-out'
       }"
     >
       <router-outlet (activate)="onRouteChange()"></router-outlet>

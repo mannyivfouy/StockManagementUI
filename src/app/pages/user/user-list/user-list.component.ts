@@ -17,6 +17,13 @@ export class UserListComponent implements OnInit {
   pageSize = 10;
   currentPage = 1;
 
+  private searchTerm = '';
+  private debounceTimer: number | null = null;
+  private debounceMs = 300;
+
+  showDeletePopup = false;
+  deletedUsername = '';
+
   private serverUrl = 'http://localhost:4000';
 
   constructor(private userService: UserService) {}
@@ -44,11 +51,14 @@ export class UserListComponent implements OnInit {
 
   get pagedUsers(): User[] {
     const start = (this.currentPage - 1) * this.pageSize;
-    return (this.user || []).slice(start, start + this.pageSize);
+    return this.filteredUsers.slice(start, start + this.pageSize);
   }
 
   get totalPages(): number {
-    return Math.max(1, Math.ceil((this.user?.length || 0) / this.pageSize));
+    return Math.max(
+      1,
+      Math.ceil((this.filteredUsers?.length || 0) / this.pageSize)
+    );
   }
 
   prev() {
@@ -56,6 +66,30 @@ export class UserListComponent implements OnInit {
   }
   next() {
     if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  onSearch(event: Event) {
+    const input = event.target as HTMLInputElement | null;
+    const value = input?.value ?? '';
+
+    if (this.debounceTimer !== null) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = window.setTimeout(() => {
+      this.searchTerm = value.trim().toLowerCase();
+      this.currentPage = 1;
+      this.debounceTimer = null;
+    }, this.debounceMs);
+  }
+
+  get filteredUsers(): User[] {
+    if (!this.searchTerm) return this.user || [];
+    return (this.user || []).filter(
+      (u) =>
+        (u.username || '').toLowerCase().includes(this.searchTerm) ||
+        (u.fullname || '').toLowerCase().includes(this.searchTerm)
+    );
   }
 
   avatarUrl(user: User): string {
@@ -76,10 +110,23 @@ export class UserListComponent implements OnInit {
 
     this.userService.deleteUserById(userID).subscribe({
       next: () => {
-        this.user = this.user.filter((u) => u.userID !== userID); // note user.userID
+        // Remove user from list
+        const deletedUser = this.user.find((u) => u.userID === userID);
+        this.user = this.user.filter((u) => u.userID !== userID);
+
+        // Show popup
+        this.deletedUsername = deletedUser?.username || '';
+        this.showDeletePopup = true;
+
+        // ! Auto hide after 3 seconds         
+        // setTimeout(() => this.closeDeletePopup(), 3000);
       },
       error: (err) => alert(err?.error?.message || 'Delete failed'),
     });
+  }
+
+  closeDeletePopup() {
+    this.showDeletePopup = false;
   }
 
   confirmAndEdit(username?: string): void {}
