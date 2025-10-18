@@ -1,65 +1,134 @@
-<div class="container mt-4">
-  <h3>Users</h3>
+<div
+  class="container-fluid d-flex flex-column"
+  style="width: 100%; height: 100%"
+>
+  <!-- Top Row -->
+  <div class="row">
+    <div class="col p-0">
+      <h3>All Users List</h3>
 
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-
-  <table
-    *ngIf="!loading && user.length"
-    class="table table-striped table-bordered align-middle"
-  >
-    <thead class="table-dark">
-      <tr>
-        <th>#</th>
-        <th>Avatar</th>
-        <th>UserID</th>
-        <th>Fullname</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>D.O.B</th>
-        <th>Gender</th>
-        <th>Role</th>
-        <th>Created</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let u of user; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td style="width: 48px">
-          <img
-            [src]="avatarUrl(u)"
-            alt="avatar"
-            style="
-              width: 40px;
-              height: 40px;
-              object-fit: cover;
-              border-radius: 4px;
-            "
+      <form action="">
+        <label for="search" class="form-label"> Search User</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Search By Username or Fullname"
           />
-        </td>
-        <td>{{ u.userID }}</td>
-        <td>{{ u.fullname }}</td>
-        <td>{{ u.username }}</td>
-        <td>{{ u.email }}</td>
-        <td>{{ u.dateOfBirth | date : "mediumDate" }}</td>
-        <td>{{ u.gender }}</td>
-        <td>{{ u.role }}</td>
-        <td>{{ u.created_date | date : "short" }}</td>
-        <td>
-          <button
-            class="btn btn-sm btn-danger"
-            (click)="confirmAndDelete(u.username)"
-            [disabled]="!u.username"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+      </form>
+    </div>
+    <div class="col d-flex align-items-end justify-content-end p-0">
+      <button class="btn btn-outline-primary" routerLink="/user/createUser">
+        <i class="bi bi-person-plus-fill me-1"></i>
+        Add New User
+      </button>
+    </div>
+  </div>
 
-  <div *ngIf="!loading && !user.length" class="text-center">
-    No users found.
+  <!-- Middle Row -->
+  <div class="row mt-4" style="height: 615px; overflow: hidden">
+    <div *ngIf="loading">Loading...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <table
+      *ngIf="!loading && user.length"
+      class="table table-striped table-bordered align-middle text-center"
+    >
+      <thead class="table-dark">
+        <tr>
+          <th class="no">No.</th>
+          <th class="avatar">Avatar</th>
+          <th class="name">Fullname</th>
+          <th class="user">Username</th>
+          <th class="email">Email Address</th>
+          <th class="dob">Date of Birth</th>
+          <th class="gender">Gender</th>
+          <th class="role">User Role</th>
+          <th class="date">Register Date</th>
+          <th class="action">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of pagedUsers; let i = index">
+          <td class="text-center" style="vertical-align: middle">
+            {{ (currentPage - 1) * pageSize + i + 1 }}
+          </td>
+          <td style="width: 48px">
+            <img
+              [src]="avatarUrl(u)"
+              alt="avatar"
+              style="
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 4px;
+              "
+            />
+          </td>
+          <td>{{ u.fullname }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.dateOfBirth | date : "dd-MMM-yyyy" }}</td>
+          <td>{{ u.gender }}</td>
+          <td>{{ u.role }}</td>
+          <td>{{ u.created_date | date : "dd-MMM-yyyy" }}</td>
+          <td>
+            <button
+              class="btn btn-outline-primary me-3"
+              (click)="confirmAndEdit(u.username)"
+              [disabled]="!u.username"
+              routerLink="/user/createUser"
+            >
+              <i class="bi bi-pencil-square me-1"></i>
+              Edit
+            </button>
+            <button
+              class="btn btn-outline-danger"
+              (click)="confirmAndDelete(u.userID)"
+              [disabled]="!u.username"
+            >
+              <i class="bi bi-trash3-fill me-1"></i>
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading && !user.length" class="text-center">
+      No users found.
+    </div>
+  </div>
+
+  <!-- Bottom Row -->
+  <div
+    class="row mt-4"
+    style="height: 60px; align-items: center; justify-content: center"
+  >
+    <div class="col d-flex justify-content-center align-items-center gap-3">
+      <button
+        class="btn btn-outline-primary"
+        (click)="prev()"
+        [disabled]="currentPage === 1"
+      >
+        <i class="bi bi-arrow-left-circle me-1"></i> Previous
+      </button>
+
+      <span class="fw-semibold">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+
+      <button
+        class="btn btn-outline-primary"
+        (click)="next()"
+        [disabled]="currentPage === totalPages"
+      >
+        Next <i class="bi bi-arrow-right-circle ms-1"></i>
+      </button>
+    </div>
   </div>
 </div>

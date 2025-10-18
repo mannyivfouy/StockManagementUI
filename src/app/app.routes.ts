@@ -46,6 +46,7 @@ export const routes: Routes = [
           {
             path: 'createUser',
             component: UserFormComponent,
+            data: { title: 'User Form' },
           },
           {
             path: 'editUser/:id',
@@ -64,6 +65,7 @@ export const routes: Routes = [
           {
             path: 'createProduct',
             component: ProductFormComponent,
+            data: { title: 'Product Form' },
           },
           {
             path: 'editProduct/:id',
@@ -82,6 +84,7 @@ export const routes: Routes = [
           {
             path: 'createCategory',
             component: CategoryFormComponent,
+            data: { title: 'Category Form' },
           },
           {
             path: 'editCategory/:id',

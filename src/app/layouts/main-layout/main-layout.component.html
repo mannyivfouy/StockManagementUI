@@ -8,8 +8,15 @@
     <app-header></app-header>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-grow-1 p-4 overflow-auto bg-light">
-      <router-outlet></router-outlet>
+    <main
+      class="flex-grow-1 p-4 overflow-auto bg-light"
+      [ngStyle]="{
+        opacity: pageOpacity,
+        transform: 'scale(' + pageScale + ')',
+        transition: 'opacity 0.4s ease-in-out, transform 0.4s ease-in-out'
+      }"
+    >
+      <router-outlet (activate)="onRouteChange()"></router-outlet>
     </main>
   </div>
 </div>

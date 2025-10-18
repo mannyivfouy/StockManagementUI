@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface User {
-  _id?: string;
-  userID?: number;
+  userID?: string;
   fullname?: string;
   username?: string;
   dateOfBirth?: string;
@@ -39,5 +38,9 @@ export class UserService {
 
   deleteUserByUsername(username: string) {
     return this.http.delete(`${this.apiUrl}/${encodeURIComponent(username)}`);
+  }
+
+  deleteUserById(userID: string){
+    return this.http.delete(`${this.apiUrl}/id/${encodeURIComponent(userID)}`);
   }
 }

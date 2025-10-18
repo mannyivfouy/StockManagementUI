@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, User } from '../../../services/api/user.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css',
 })
@@ -12,6 +13,9 @@ export class UserListComponent implements OnInit {
   user: User[] = [];
   loading = true;
   error = '';
+
+  pageSize = 10;
+  currentPage = 1;
 
   private serverUrl = 'http://localhost:4000';
 
@@ -24,9 +28,12 @@ export class UserListComponent implements OnInit {
   loadUsers() {
     this.loading = true;
     this.userService.getAllUsers().subscribe({
-      next: (data) => {        
+      next: (data) => {
         this.user = data;
         this.loading = false;
+        if (this.currentPage > this.totalPages) {
+          this.currentPage = this.totalPages || 1;
+        }
       },
       error: (err) => {
         this.error = err.error?.message || 'Failed To Fetch User';
@@ -35,31 +42,20 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  // confirmAndDelete(username: string){
-  //   if (!confirm(`Delete user "${username}"? This cannot be undone.`)) return;
-  //   this.userService.deleteUserByUsername(username).subscribe({
-  //     next: () => {
-  //       // optimistic refresh
-  //       this.user = this.user.filter((u) => u.username !== username);
-  //     },
-  //     error: (err) => alert(err.error?.message || 'Delete failed'),
-  //   });
-  // }
+  get pagedUsers(): User[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return (this.user || []).slice(start, start + this.pageSize);
+  }
 
-  confirmAndDelete(username?: string): void {
-    if (!username) {
-      // optional: show an error toast or console.warn
-      console.warn('Username missing, cannot delete');
-      return;
-    }
+  get totalPages(): number {
+    return Math.max(1, Math.ceil((this.user?.length || 0) / this.pageSize));
+  }
 
-    if (!confirm(`Delete user "${username}"? This cannot be undone.`)) return;
-
-    this.userService.deleteUserByUsername(username).subscribe({
-      next: () =>
-        (this.user = this.user.filter((u) => u.username !== username)),
-      error: (err) => alert(err?.error?.message || 'Delete failed'),
-    });
+  prev() {
+    if (this.currentPage > 1) this.currentPage--;
+  }
+  next() {
+    if (this.currentPage < this.totalPages) this.currentPage++;
   }
 
   avatarUrl(user: User): string {
@@ -69,4 +65,22 @@ export class UserListComponent implements OnInit {
       user.imageUrl
     }`;
   }
+
+  confirmAndDelete(userID?: any): void {
+    if (!userID) {
+      console.warn('User ID missing, cannot delete');
+      return;
+    }
+
+    if (!confirm(`Delete this user? This cannot be undone.`)) return;
+
+    this.userService.deleteUserById(userID).subscribe({
+      next: () => {
+        this.user = this.user.filter((u) => u.userID !== userID); // note user.userID
+      },
+      error: (err) => alert(err?.error?.message || 'Delete failed'),
+    });
+  }
+
+  confirmAndEdit(username?: string): void {}
 }
