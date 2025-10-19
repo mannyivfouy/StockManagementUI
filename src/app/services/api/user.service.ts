@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface User {
   userID?: string;
@@ -40,7 +41,26 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${encodeURIComponent(username)}`);
   }
 
-  deleteUserById(userID: string){
+  deleteUserById(userID: string) {
     return this.http.delete(`${this.apiUrl}/id/${encodeURIComponent(userID)}`);
+  }
+
+  createUser(payload: any) {
+    return this.http.post(`${this.apiUrl}`, payload);
+  }
+
+  updateUserById(userID: string, payload: any) {
+    return this.http.put(
+      `${this.apiUrl}/id/${encodeURIComponent(userID)}`,
+      payload
+    );
+  }
+
+  uploadAvatar(file: File) {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    return this.http
+      .post<{ url: string }>(`${this.apiUrl}/upload-avatar`, formData)
+      .pipe(map((res) => res.url));
   }
 }

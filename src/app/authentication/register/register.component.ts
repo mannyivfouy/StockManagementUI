@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators, 
+  Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -21,16 +20,14 @@ export class RegisterComponent {
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
-  registerForm = new FormGroup(
-    {      
-      fullname: new FormControl('', Validators.required),
-      username: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      dateOfBirth: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),      
-    },    
-  );
+  registerForm = new FormGroup({
+    fullname: new FormControl('', Validators.required),
+    username: new FormControl('', Validators.required),
+    gender: new FormControl('', Validators.required),
+    dateOfBirth: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
 
   get fullname() {
     return this.registerForm.get('fullname');

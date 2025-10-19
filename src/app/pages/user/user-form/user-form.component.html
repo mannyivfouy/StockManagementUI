@@ -3,7 +3,12 @@
     <h3>Personal Information</h3>
   </div>
   <div class="row">
-    <form action="">
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="submitUserForm()"
+      (ngSubmit)="onCancel()"
+      *ngIf="!loading"
+    >
       <div class="row">
         <div class="col-md-6 my-3">
           <label for="fullname" class="form-label">Fullname</label>
@@ -16,8 +21,18 @@
               class="form-control"
               placeholder="Enter Fullname"
               formControlName="fullname"
+              [ngClass]="{
+                'is-invalid':
+                  fullname?.invalid && (fullname?.dirty || fullname?.touched)
+              }"
             />
           </div>
+          <span
+            class="small text-danger"
+            *ngIf="fullname?.invalid && (fullname?.dirty || fullname?.touched)"
+          >
+            Fullname is Required
+          </span>
         </div>
 
         <div class="col-md-6 my-3">
@@ -31,8 +46,18 @@
               class="form-control"
               placeholder="Enter Username"
               formControlName="username"
+              [ngClass]="{
+                'is-invalid':
+                  username?.invalid && (username?.dirty || username?.touched)
+              }"
             />
           </div>
+          <span
+            class="small text-danger"
+            *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+          >
+            Username is Required
+          </span>
         </div>
 
         <div class="col-md-6 my-3">
@@ -41,12 +66,25 @@
             <span class="input-group-text bg-primary text-white">
               <i class="bi bi-gender-ambiguous"></i>
             </span>
-            <select class="form-select" formControl="gender">
+            <select
+              class="form-select"
+              formControlName="gender"
+              [ngClass]="{
+                'is-invalid':
+                  gender?.invalid && (gender?.dirty || gender?.touched)
+              }"
+            >
               <option value="" disabled>Select your gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </div>
+          <span
+            class="small text-danger"
+            *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
+          >
+            Gender is Required
+          </span>
         </div>
 
         <div class="col-md-6 my-3">
@@ -59,8 +97,22 @@
               type="date"
               class="form-control"
               formControlName="dateOfBirth"
+              [ngClass]="{
+                'is-invalid':
+                  dateOfBirth?.invalid &&
+                  (dateOfBirth?.dirty || dateOfBirth?.touched)
+              }"
             />
           </div>
+          <span
+            class="small text-danger"
+            *ngIf="
+              dateOfBirth?.invalid &&
+              (dateOfBirth?.dirty || dateOfBirth?.touched)
+            "
+          >
+            Date of Birth is Required
+          </span>
         </div>
 
         <div class="col-md-6 my-3">
@@ -74,8 +126,17 @@
               class="form-control"
               placeholder="Enter Email Address"
               formControlName="email"
+              [ngClass]="{
+                'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+              }"
             />
           </div>
+          <span
+            class="small text-danger"
+            *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+          >
+            Email Address is Required
+          </span>
         </div>
 
         <div class="col-md-6 my-3">
@@ -85,12 +146,33 @@
               <i class="bi bi-lock-fill"></i>
             </span>
             <input
-              type="password"
+              [type]="showPassword ? 'text' : 'password'"
               class="form-control"
               placeholder="Enter Password"
               formControlName="password"
+              [ngClass]="{
+                'is-invalid':
+                  password?.invalid && (password?.dirty || password?.dirty)
+              }"
             />
+            <span
+              class="input-group-text bg-primary text-white"
+              role="button"
+              (click)="togglePasswordVisibility()"
+            >
+              <i
+                [ngClass]="
+                  showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'
+                "
+              ></i>
+            </span>
           </div>
+          <span
+            class="small text-danger"
+            *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+          >
+            Password is Required
+          </span>
         </div>
 
         <div class="col-md-6 my-3">
@@ -101,10 +183,18 @@
             </span>
             <input
               type="file"
-              class="form-control"              
+              class="form-control"
               formControlName="avatar"
+              (change)="onAvatarFileChange($event)"
             />
           </div>
+
+          <img
+            *ngIf="imagePreview"
+            [src]="imagePreview"
+            class="img-thumbnail mt-2"
+            style="max-height: 150px"
+          />
         </div>
 
         <div class="col-md-6 my-3">
@@ -123,7 +213,11 @@
         </div>
 
         <div class="col d-flex justify-content-end">
-          <button class="btn btn-outline-primary my-3" style="width: 150px;">
+          <button class="btn btn-outline-danger my-3 me-3" style="width: 150px">
+            <i class="bi bi-x-lg me-1"></i>
+            Cancel
+          </button>
+          <button class="btn btn-outline-primary my-3" style="width: 150px">
             <i class="bi bi-floppy-fill me-1"></i>
             Save User
           </button>

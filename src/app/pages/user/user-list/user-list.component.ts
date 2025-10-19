@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, User } from '../../../services/api/user.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit {
 
   private serverUrl = 'http://localhost:4000';
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -93,7 +93,7 @@ export class UserListComponent implements OnInit {
   }
 
   avatarUrl(user: User): string {
-    if (!user.imageUrl) return `${this.serverUrl}/images/default_img.png`;
+    if (!user.imageUrl) return `${this.serverUrl}/images/avatar.png`;
     if (user.imageUrl.startsWith('http')) return user.imageUrl;
     return `${this.serverUrl}${user.imageUrl.startsWith('/') ? '' : '/'}${
       user.imageUrl
@@ -118,16 +118,25 @@ export class UserListComponent implements OnInit {
         this.deletedUsername = deletedUser?.username || '';
         this.showDeletePopup = true;
 
-        // ! Auto hide after 3 seconds         
+        // ! Auto hide after 3 seconds
         // setTimeout(() => this.closeDeletePopup(), 3000);
       },
       error: (err) => alert(err?.error?.message || 'Delete failed'),
     });
   }
 
+  confirmAndEdit(userID?: any) {
+    if (!userID) return;
+
+    // const ok = confirm('Open Editor For This User?');
+    // if (!ok) return;
+
+    this.router.navigate(['/user', 'editUser', userID]).catch((err) => {
+      console.log('Navigate Error', err);
+    });
+  }
+
   closeDeletePopup() {
     this.showDeletePopup = false;
   }
-
-  confirmAndEdit(username?: string): void {}
 }
