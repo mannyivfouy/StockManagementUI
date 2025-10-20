@@ -20,8 +20,7 @@ export class UserListComponent implements OnInit {
   private searchTerm = '';
   private debounceTimer: number | null = null;
   private debounceMs = 300;
-
-  showDeletePopup = false;
+  
   deletedUsername = '';
 
   private serverUrl = 'http://localhost:4000';
@@ -113,13 +112,8 @@ export class UserListComponent implements OnInit {
         // Remove user from list
         const deletedUser = this.user.find((u) => u.userID === userID);
         this.user = this.user.filter((u) => u.userID !== userID);
-
-        // Show popup
-        this.deletedUsername = deletedUser?.username || '';
-        this.showDeletePopup = true;
-
-        // ! Auto hide after 3 seconds
-        // setTimeout(() => this.closeDeletePopup(), 3000);
+        
+        this.deletedUsername = deletedUser?.username || '';        
       },
       error: (err) => alert(err?.error?.message || 'Delete failed'),
     });
@@ -134,9 +128,5 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['/user', 'editUser', userID]).catch((err) => {
       console.log('Navigate Error', err);
     });
-  }
-
-  closeDeletePopup() {
-    this.showDeletePopup = false;
   }
 }

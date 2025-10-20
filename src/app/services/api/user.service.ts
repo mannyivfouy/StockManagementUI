@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject} from 'rxjs';
 import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+
 
 export interface User {
   userID?: string;

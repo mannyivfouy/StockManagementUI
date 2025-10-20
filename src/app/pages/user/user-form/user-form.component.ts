@@ -41,7 +41,7 @@ export class UserFormComponent implements OnInit {
       gender: ['', Validators.required],
       dateOfBirth: [null, Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: [''],
       avatar: [''],
       userRole: ['', Validators.required],
     });
@@ -137,7 +137,7 @@ export class UserFormComponent implements OnInit {
       return;
     }
 
-    const payload : any = {
+    const payload: any = {
       fullname: this.userForm.value.fullname,
       username: this.userForm.value.username,
       gender: this.userForm.value.gender,
@@ -149,9 +149,9 @@ export class UserFormComponent implements OnInit {
     };
 
     if (this.isEdit && this.userID) {
-      payload.userID = Number(this.userID); 
+      payload.userID = Number(this.userID);
       this.userService.updateUserById(this.userID, payload).subscribe({
-        next: () => {
+        next: (res : any) => {
           alert('User updated');
           this.router.navigate(['/user']);
         },

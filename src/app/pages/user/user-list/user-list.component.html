@@ -137,31 +137,4 @@
       </button>
     </div>
   </div>
-
-  <div *ngIf="showDeletePopup">
-    <div
-      class="position-fixed top-0 start-0 w-100 h-100"
-      style="background-color: rgba(0, 0, 0, 0.5); z-index: 1040"
-    ></div>
-
-    <div
-      class="card position-fixed top-50 start-50 translate-middle p-3 shadow"
-      style="width: 700px; z-index: 1050"
-    >
-      <div class="card-body text-center">
-        <i class="bi bi-check-circle-fill text-success fs-1"></i>
-        <h1 class="card-title text-success">User Deleted Successfully</h1>
-        <p class="card-text">
-          User "{{ deletedUsername }}" has been successfully deleted.
-        </p>
-        <button
-          class="btn btn-primary"
-          (click)="closeDeletePopup()"
-          style="width: 100px"
-        >
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
