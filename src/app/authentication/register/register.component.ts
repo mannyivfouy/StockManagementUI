@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../services/api/user.service';
 
 @Component({
   selector: 'app-register',
@@ -58,7 +59,8 @@ export class RegisterComponent {
   }
 
   submitRegister() {
-    this.registerForm.reset();
+    // this.registerForm.reset();    
+
     this.router.navigate(['/dashboard']);
   }
 }

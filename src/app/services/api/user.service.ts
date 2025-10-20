@@ -49,7 +49,7 @@ export class UserService {
     return this.http.post(`${this.apiUrl}`, payload);
   }
 
-  updateUserById(userID: string, payload: any) {
+  updateUserById(userID: any, payload: any) {
     return this.http.put(
       `${this.apiUrl}/id/${encodeURIComponent(userID)}`,
       payload

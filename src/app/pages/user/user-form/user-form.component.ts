@@ -127,7 +127,6 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  // !Not Yet
   onCancel() {
     this.router.navigate(['/user']);
   }
@@ -144,12 +143,13 @@ export class UserFormComponent implements OnInit {
       gender: this.userForm.value.gender,
       dateOfBirth: this.userForm.value.dateOfBirth,
       email: this.userForm.value.email,
-      password: this.userForm.value.password, // send only if creating or explicitly changed
+      password: this.userForm.value.password,
       imageUrl: this.avatar?.value,
       role: this.userForm.value.userRole,
     };
 
-    if (this.isEdit && this.userID) {      
+    if (this.isEdit && this.userID) {
+      payload.userID = Number(this.userID); 
       this.userService.updateUserById(this.userID, payload).subscribe({
         next: () => {
           alert('User updated');
