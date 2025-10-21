@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
-
 
 export interface User {
   userID?: string;
@@ -22,6 +21,9 @@ export interface User {
 })
 export class UserService {
   private apiUrl = 'http://localhost:4000/api/user';
+
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -64,5 +66,18 @@ export class UserService {
     return this.http
       .post<{ url: string }>(`${this.apiUrl}/upload-avatar`, formData)
       .pipe(map((res) => res.url));
+  }
+
+  login(payload: { username: string; password: string }): Observable<any> {
+    return this.http
+      .post<{ token: string; user: User }>(`${this.apiUrl}/login`, payload)
+      .pipe(
+        tap((res) => {
+          // update BehaviorSubject if token+user returned
+          if (res?.user) {
+            this.currentUserSubject.next(res.user);
+          }
+        })
+      );
   }
 }

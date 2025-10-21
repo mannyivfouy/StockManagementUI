@@ -25,7 +25,8 @@ export class UserFormComponent implements OnInit {
   loading = false;
   error = '';
 
-  private serverUrl = 'http://localhost:4000';
+  selectedAvatarFile: File | null = null;
+  imagePreview: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -35,17 +36,19 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // create form: password and avatar are optional here; we'll require password only on create
     this.userForm = this.fb.group({
       fullname: ['', Validators.required],
       username: ['', Validators.required],
       gender: ['', Validators.required],
       dateOfBirth: [null, Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: [''],
-      avatar: [''],
+      password: [''], // optional for edit
+      avatar: [''], // this control will store image URL (string), not the file input
       userRole: ['', Validators.required],
     });
 
+    // Load user for edit mode
     this.route.paramMap
       .pipe(
         switchMap((params) => {
@@ -65,14 +68,23 @@ export class UserFormComponent implements OnInit {
         error: (err) => {
           this.loading = false;
           this.error = err?.error?.message || 'Failed to load user';
+          console.error('Get user failed', err);
         },
       });
+
+    // If not in edit mode (create) require password
+    // (if route param has no id, isEdit remains false)
+    if (!this.isEdit) {
+      this.userForm.get('password')?.setValidators([Validators.required]);
+      this.userForm.get('password')?.updateValueAndValidity();
+    }
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
+  // getters for template convenience
   get fullname() {
     return this.userForm.get('fullname');
   }
@@ -93,37 +105,53 @@ export class UserFormComponent implements OnInit {
   }
   get avatar() {
     return this.userForm.get('avatar');
-  }
+  } // stores image URL after upload
   get userRole() {
     return this.userForm.get('userRole');
   }
 
   patchForm(user: User) {
+    // patch only non-file fields
     this.userForm.patchValue({
       fullname: user.fullname ?? '',
       username: user.username ?? '',
       gender: user.gender ?? '',
       dateOfBirth: user.dateOfBirth ? user.dateOfBirth.split('T')[0] : null,
       email: user.email ?? '',
-      avatar: user.imageUrl ?? '',
       userRole: user.role ?? 'user',
+      avatar: user.imageUrl ?? '', // safe: a string URL
     });
+
+    // show preview of existing image (do NOT try to set file input)
+    this.imagePreview = user.imageUrl ?? null;
+
+    // For edit: password remains optional (user enters new password only if they want to change)
+    this.userForm.get('password')?.clearValidators();
+    this.userForm.get('password')?.updateValueAndValidity();
   }
 
-  imagePreview: string | null = null;
-
-  onAvatarFileChange(event: Event) {
+  // file input NOT bound to formControl; store file here and upload to server
+  onAvatarFileChange(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
 
-    // Optional: preview before upload
+    this.selectedAvatarFile = file;
+
+    // preview locally
     const reader = new FileReader();
     reader.onload = () => (this.imagePreview = reader.result as string);
     reader.readAsDataURL(file);
 
-    // Upload to server
-    this.userService.uploadAvatar(file).subscribe((url) => {
-      this.avatar?.setValue(url); // store the server URL, e.g. /images/12345.png
+    // upload file to server (assumes userService.uploadAvatar returns observable<string> url)
+    this.userService.uploadAvatar(file).subscribe({
+      next: (url: string) => {
+        console.log('avatar uploaded ->', url);
+        // set the avatar control to the uploaded URL (a string)
+        this.userForm.patchValue({ avatar: url });
+      },
+      error: (err) => {
+        console.error('avatar upload failed', err);
+      },
     });
   }
 
@@ -132,38 +160,65 @@ export class UserFormComponent implements OnInit {
   }
 
   submitUserForm() {
+    // If form invalid, show validation
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       return;
     }
 
+    // Build payload with only actual fields (avoid sending empty password/avatar)
     const payload: any = {
       fullname: this.userForm.value.fullname,
       username: this.userForm.value.username,
       gender: this.userForm.value.gender,
       dateOfBirth: this.userForm.value.dateOfBirth,
       email: this.userForm.value.email,
-      password: this.userForm.value.password,
-      imageUrl: this.avatar?.value,
       role: this.userForm.value.userRole,
     };
 
+    if (this.userForm.value.password) {
+      payload.password = this.userForm.value.password;
+    }
+
+    // avatar control contains URL string only if upload occurred or existing URL present
+    if (this.userForm.value.avatar) {
+      payload.imageUrl = this.userForm.value.avatar;
+    }
+
+    console.log(
+      'SUBMIT -> isEdit:',
+      this.isEdit,
+      'userID:',
+      this.userID,
+      'payload:',
+      payload
+    );
+
     if (this.isEdit && this.userID) {
-      payload.userID = Number(this.userID);
+      // Do NOT include userID in body; backend reads id from URL param
       this.userService.updateUserById(this.userID, payload).subscribe({
-        next: (res : any) => {
+        next: (res: any) => {
+          console.log('Update response:', res);
           alert('User updated');
           this.router.navigate(['/user']);
         },
-        error: (err) => alert(err?.error?.message || 'Update failed'),
+        error: (err) => {
+          console.error('Update failed:', err);
+          alert(err?.error?.message || 'Update failed');
+        },
       });
     } else {
+      // Create flow
       this.userService.createUser(payload).subscribe({
-        next: () => {
+        next: (res) => {
+          console.log('Create response:', res);
           alert('User created');
           this.router.navigate(['/user']);
         },
-        error: (err) => alert(err?.error?.message || 'Create failed'),
+        error: (err) => {
+          console.error('Create failed:', err);
+          alert(err?.error?.message || 'Create failed');
+        },
       });
     }
   }
