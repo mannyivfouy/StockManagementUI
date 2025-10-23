@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ProductService {
+export interface Product {
+  productID? : string;
+  productImage : string;
+  productName : string;
+  price : number;
+  category : string;
+  description : string;
+  stock : boolean;    
+}
 
-  constructor() { }
+@Injectable({
+  providedIn: 'root',
+})
+
+export class ProductService {
+  private productAPI = 'http://localhost:4000/api/product'
 }

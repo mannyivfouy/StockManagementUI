@@ -70,11 +70,12 @@ export class LoginComponent {
           if (res?.token) {
             console.log('[login] server token:', res.token);
             localStorage.setItem('auth_token', res.token);
+            localStorage.setItem('current_user', JSON.stringify(res.user));
             localStorage.setItem(
               'current_user',
               JSON.stringify(res.user ?? {})
             );
-            localStorage.setItem('isLoggedIn', 'true'); // optional for older guard
+            // localStorage.setItem('isLoggedIn', 'true'); // optional for older guard
             console.log(
               '[login] token saved to localStorage:',
               localStorage.getItem('auth_token')
@@ -87,7 +88,7 @@ export class LoginComponent {
         },
         error: (err) => {
           this.error = 'Invalid username or password';
-          console.error(err);
+          console.error(err);          
         },
       });
   }

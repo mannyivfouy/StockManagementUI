@@ -20,42 +20,42 @@ export interface User {
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:4000/api/user';
+  private userAPI = 'http://localhost:4000/api/user';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+    return this.http.get<User[]>(this.userAPI);
   }
 
   getUserByUsername(username: string) {
     return this.http.get<User>(
-      `${this.apiUrl}/${encodeURIComponent(username)}`
+      `${this.userAPI}/${encodeURIComponent(username)}`
     );
   }
 
   getUserById(id: string) {
-    return this.http.get<User>(`${this.apiUrl}/id/${id}`);
+    return this.http.get<User>(`${this.userAPI}/id/${id}`);
   }
 
   deleteUserByUsername(username: string) {
-    return this.http.delete(`${this.apiUrl}/${encodeURIComponent(username)}`);
+    return this.http.delete(`${this.userAPI}/${encodeURIComponent(username)}`);
   }
 
   deleteUserById(userID: string) {
-    return this.http.delete(`${this.apiUrl}/id/${encodeURIComponent(userID)}`);
+    return this.http.delete(`${this.userAPI}/id/${encodeURIComponent(userID)}`);
   }
 
   createUser(payload: any) {
-    return this.http.post(`${this.apiUrl}`, payload);
+    return this.http.post(`${this.userAPI}`, payload);
   }
 
   updateUserById(userID: any, payload: any) {
     return this.http.put(
-      `${this.apiUrl}/id/${encodeURIComponent(userID)}`,
+      `${this.userAPI}/id/${encodeURIComponent(userID)}`,
       payload
     );
   }
@@ -64,13 +64,13 @@ export class UserService {
     const formData = new FormData();
     formData.append('avatar', file);
     return this.http
-      .post<{ url: string }>(`${this.apiUrl}/upload-avatar`, formData)
+      .post<{ url: string }>(`${this.userAPI}/upload-avatar`, formData)
       .pipe(map((res) => res.url));
   }
 
   login(payload: { username: string; password: string }): Observable<any> {
     return this.http
-      .post<{ token: string; user: User }>(`${this.apiUrl}/login`, payload)
+      .post<{ token: string; user: User }>(`${this.userAPI}/login`, payload)
       .pipe(
         tap((res) => {
           // update BehaviorSubject if token+user returned

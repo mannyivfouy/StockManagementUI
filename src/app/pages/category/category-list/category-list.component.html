@@ -1,1 +1,39 @@
-<p>category-list works!</p>
+<div class="container-fluid" style="width: 100%; height: 100%">
+  <!-- Top Row -->
+  <div class="row">
+    <div class="col-3 p-0">
+      <h3>All Categories List</h3>
+
+      <form action="">
+        <label for="search" class="form-label">Search Product</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            id="search"
+            type="search"
+            class="form-control"
+            placeholder="Search Product By Name"
+            (input)="onSearch()"
+            aria-label="Search By Name"
+          />
+        </div>
+      </form>
+    </div>
+
+    <div class="col-9 p-0 align-items-end justify-content-end d-flex">
+      <button
+        class="btn btn-outline-primary"
+        routerLink="/product/createProduct"
+      >
+        <i class="bi bi-tags-fill me-1"></i>
+        Add New Category
+      </button>
+    </div>
+  </div>
+
+  <!-- Middle Row -->
+
+  <!-- Bottom Row -->
+</div>

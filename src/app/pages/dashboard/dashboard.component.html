@@ -1,6 +1,37 @@
-<div class="bg-dark d-flex justify-content-evenly" style="width: 100%; height: 100%">
-  <div class="card border border-primary bg-transparent"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
+<div class="container-fluid" style="width: 100%; height: 100%">
+  <!-- Top Row -->
+  <div class="row mb-3">
+    <h3>Overview</h3>
+  </div>
+
+  <div class="row d-flex justify-content-between">
+    <div
+      class="card d-flex justify-content-center align-items-center"
+      style="width: 250px; height: 250px"
+    >
+      <div class="row">
+        <i class="bi bi-people-fill text-primary fs-1"></i>
+      </div>
+      <div class="row">
+        <p class="fw-semibold">Users</p>
+      </div>
+      <div class="row">
+        <h2 class="fw-bold">{{ totalUser }}</h2>
+      </div>
+    </div>
+
+    <div
+      class="card d-flex justify-content-center align-items-center"
+      style="width: 250px; height: 250px"
+    >
+      <i class="bi bi-box-fill text-primary fs-1"></i>
+    </div>
+
+    <div
+      class="card d-flex justify-content-center align-items-center"
+      style="width: 250px; height: 250px"
+    >
+      <i class="bi bi-tags-fill text-primary fs-1"></i>
+    </div>
+  </div>
 </div>

@@ -3,6 +3,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/api/user.service';
+import { User } from '../../services/api/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,8 +11,10 @@ import { UserService } from '../../services/api/user.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
+
 export class HeaderComponent {
   pageTitle = 'Dashboard';
+  currentUser: User | null = null;
 
   constructor(
     private router: Router,
@@ -37,11 +40,16 @@ export class HeaderComponent {
   userImage: string = '/assets/images/loginImg.jpg';
 
   ngOnInit() {
-    const user = localStorage.getItem('user');
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      if (parsedUser.imageUrl) {
-        this.userImage = parsedUser.imageUrl;
+    // Subscribe to BehaviorSubject
+    this.userService.currentUserSubject.subscribe((user) => {
+      this.currentUser = user;
+    });
+
+    // If null, read from localStorage
+    if (!this.currentUser) {
+      const userStr = localStorage.getItem('current_user');
+      if (userStr) {
+        this.currentUser = JSON.parse(userStr);
       }
     }
   }

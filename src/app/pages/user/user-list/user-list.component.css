@@ -17,7 +17,7 @@ th.avatar {
   width: 60px;
 }
 th.name {
-  width: 140px;
+  width: 160px;
 }
 th.user {
   width: 120px;
@@ -26,16 +26,16 @@ th.email {
   width: 180px;
 }
 th.dob {
-  width: 140px;
+  width: 130px;
 }
 th.gender {
-  width: 100px;
+  width: 90px;
 }
 th.role {
-  width: 120px;
+  width: 150px;
 }
 th.date {
-  width: 150px;
+  width: 120px;
 }
 th.action {
   width: 180px;

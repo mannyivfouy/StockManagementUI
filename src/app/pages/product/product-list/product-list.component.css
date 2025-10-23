@@ -1,0 +1,42 @@
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+th,td{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+th.no{
+    width: 40px;
+}
+
+th.image{
+    width: 60px;
+}
+
+th.name{
+    width: 200px;
+}
+
+th.price{
+    width: 90px;
+}
+
+th.category{
+    width: 90px;
+}
+
+th.description{
+    width: 140px;
+}
+
+th.stock{
+    width: 80px;
+}
+
+th.action{
+    width: 180px;
+}
