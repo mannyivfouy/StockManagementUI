@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './main-layout.component.css',
 })
 export class MainLayoutComponent {
-  pageOpacity = 0 ;  
+  pageOpacity = 0;  
 
   onRouteChange() {    
     this.pageOpacity = 0;    

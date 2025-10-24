@@ -155,7 +155,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  onCancel() {
+  onCancel() {    
     this.router.navigate(['/user']);
   }
 
