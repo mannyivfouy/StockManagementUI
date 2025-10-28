@@ -15,7 +15,7 @@
             type="search"
             class="form-control"
             placeholder="Search Product By Name"
-            (input)="onSearch()"
+            (input)="onSearch($event)"
             aria-label="Search By Name"
           />
         </div>
@@ -38,19 +38,86 @@
     class="row mt-4 align-items-start"
     style="height: 615px; overflow-y: hidden"
   >
-    <table class="table table-striped table-bordered align-middle text-center">
+    <table
+      *ngIf="!loading"
+      class="table table-striped table-bordered align-middle text-center"
+    >
       <thead class="table-dark">
         <tr>
-          <th class="no">No.</th>          
-          <th class="name">Category Name</th>      
+          <th class="no">No.</th>
+          <th class="name">Category Name</th>
           <th class="status">Status</th>
           <th class="description">Description</th>
           <th class="date">Create Date</th>
           <th class="action">Action</th>
         </tr>
       </thead>
+      <tbody>
+        <tr *ngFor="let c of pagedCategories; let i = index">
+          <td class="text-center" style="vertical-align: middle">
+            {{ (currentPage - 1) * pageSize + i + 1 }}
+          </td>
+          <td>{{ c?.categoryName }}</td>
+          <td [ngClass]="c?.status ? 'text-success' : 'text-danger'">
+            {{ c?.status ? "Active" : "Inactive" }}
+          </td>
+          <td>{{ c?.description }}</td>
+          <td>{{ c?.created_date | date : "dd-MMM-yyyy" }}</td>
+          <td>
+            <button
+              class="btn btn-outline-primary me-3"
+              (click)="confirmAndEdit(c?.categoryID)"
+              [disabled]="!c?.categoryID"
+              routerLink="/category/createCategory"
+            >
+              <i class="bi bi-pencil-square me-1"></i>
+              Edit
+            </button>
+            <button
+              class="btn btn-outline-danger"
+              (click)="confirmAndDelete(c?.categoryID)"
+              [disabled]="!c?.categoryID"
+            >
+              <i class="bi bi-trash3-fill me-1"></i>
+              Delete
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="!loading && pagedCategories.length === 0">
+          <td colspan="6" class="text-center">No Category Found.</td>
+        </tr>
+      </tbody>
     </table>
+    <div *ngIf="loading">Loading...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
   </div>
 
   <!-- Bottom Row -->
+  <div
+    class="row mt-4"
+    style="height: 60px; align-items: center; justify-content: center"
+  >
+    <div class="col d-flex justify-content-center align-items-center gap-3">
+      <button
+        class="btn btn-outline-primary"
+        (click)="prev()"
+        [disabled]="currentPage === 1"
+      >
+        <i class="bi bi-arrow-left-circle me-1"></i> Previous
+      </button>
+
+      <span class="fw-semibold">
+        Page {{ currentPage }} of {{ totalPage }}
+      </span>
+
+      <button
+        class="btn btn-outline-primary"
+        (click)="next()"
+        [disabled]="currentPage === totalPage"
+      >
+        Next <i class="bi bi-arrow-right-circle ms-1"></i>
+      </button>
+    </div>
+  </div>
 </div>

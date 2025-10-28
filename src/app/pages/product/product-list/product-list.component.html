@@ -15,7 +15,7 @@
             type="search"
             class="form-control"
             placeholder="Search Product By Name"
-            (input)="onSearch()"
+            (input)="onSearch($event)"
             aria-label="Search By Name"
           />
         </div>
@@ -26,11 +26,19 @@
       <form action="" class="w-100">
         <label for="search" class="form-label">Select Product's Category</label>
         <div class="input-group">
-          <select class="form-select" aria-label="Default select example">
-            <option selected disabled>Select Categories</option>
-            <option value="1">Beer</option>
-            <option value="2">Soft Drink</option>
-            <option value="3">Soda</option>
+          <select
+            class="form-select"
+            [(ngModel)]="selectCategoryName"
+            aria-label="Default select example"
+            name="category"
+          >
+            <!-- <option selected disabled>Select Categories</option> -->
+            <option
+              *ngFor="let category of category"
+              [value]="category.categoryName"
+            >
+              {{ category.categoryName }}
+            </option>
           </select>
         </div>
       </form>
@@ -52,21 +60,94 @@
     class="row mt-4 align-items-start"
     style="height: 615px; overflow-y: hidden"
   >
-    <table class="table table-striped table-bordered align-middle text-center">
+    <table
+      *ngIf="!loading"
+      class="table table-striped table-bordered align-middle text-center"
+    >
       <thead class="table-dark">
         <tr>
           <th class="no">No.</th>
           <th class="image">Image</th>
           <th class="name">Product Name</th>
           <th class="price">Price</th>
+          <th class="stock">Stock</th>
+          <th class="amount">Amount</th>
           <th class="category">Category</th>
           <th class="description">Description</th>
-          <th class="stock">Stock</th>
+          <th class="status">Status</th>
           <th class="action">Action</th>
         </tr>
       </thead>
+      <tbody>
+        <tr *ngFor="let p of pagedProducts; let i = index">
+          <td class="text-center" style="vertical-align: middle">
+            {{ (currentPage - 1) * pageSize + i + 1 }}
+          </td>
+          <td style="width: 48px">image</td>
+          <td>{{ p?.productName }}</td>
+          <td>{{ p?.price }}</td>
+          <td>{{ p?.stock }}</td>
+          <td>{{ p?.amount }}</td>
+          <td>{{ getCategoryName(p?.categoryID ?? 0) }}</td>
+          <td>{{ p?.description }}</td>
+          <td [ngClass]="p?.status ? 'text-success' : 'text-danger'">
+            {{ p?.status ? "Active" : "Inactive" }}
+          </td>
+          <td>
+            <button
+              class="btn btn-outline-primary me-3"
+              (click)="confirmAndEdit(p?.productID)"
+              [disabled]="!p?.productID"
+              routerLink="/category/createCategory"
+            >
+              <i class="bi bi-pencil-square me-1"></i>
+              Edit
+            </button>
+            <button
+              class="btn btn-outline-danger"
+              (click)="confirmAndDelete(p?.productID)"
+              [disabled]="!p?.productID"
+            >
+              <i class="bi bi-trash3-fill me-1"></i>
+              Delete
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="!loading && pagedProducts.length === 0">
+          <td colspan="10" class="text-center">No Category Found.</td>
+        </tr>
+      </tbody>
     </table>
+    <div *ngIf="loading">Loading...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
   </div>
 
   <!-- Bottom Row -->
+  <div
+    class="row mt-4"
+    style="height: 60px; align-items: center; justify-content: center"
+  >
+    <div class="col d-flex justify-content-center align-items-center gap-3">
+      <button
+        class="btn btn-outline-primary"
+        (click)="prev()"
+        [disabled]="currentPage === 1"
+      >
+        <i class="bi bi-arrow-left-circle me-1"></i> Previous
+      </button>
+
+      <span class="fw-semibold">
+        Page {{ currentPage }} of {{ totalPage }}
+      </span>
+
+      <button
+        class="btn btn-outline-primary"
+        (click)="next()"
+        [disabled]="currentPage === totalPage"
+      >
+        Next <i class="bi bi-arrow-right-circle ms-1"></i>
+      </button>
+    </div>
+  </div>
 </div>

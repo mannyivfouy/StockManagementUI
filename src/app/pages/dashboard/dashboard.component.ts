@@ -29,5 +29,15 @@ export class DashboardComponent implements OnInit {
       next: (users) => (this.totalUser = users.length),
       error: (err) => console.error('Error Loading User', err),
     });
+
+    this.categoryService.getAllCategory().subscribe({
+      next: (categories) => (this.totalCategory = categories.length),
+      error: (err) => console.error('Error Loading Category', err),
+    });
+
+    this.productService.getAllProduct().subscribe({
+      next: (products) => (this.totalProduct = products.length),
+      error: (err) => console.error('Error Loading Product', err),
+    });
   }
 }

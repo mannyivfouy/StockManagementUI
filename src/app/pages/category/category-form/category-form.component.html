@@ -3,25 +3,78 @@
     <h3>Category Information</h3>
   </div>
   <div class="row">
-    <form action="">
+    <form
+      action=""
+      [formGroup]="categoryForm"
+      (ngSubmit)="submitCategoryForm()"
+    >
       <div class="row">
         <div class="col-md-6 my-3">
           <label for="categoryName" class="form-label">Category Name</label>
-          <input type="text" class="form-control" />
+          <input
+            type="text"
+            class="form-control"
+            formControlName="categoryName"
+            id="categoryName"
+          />
+          <div *ngIf="f['categoryName'].touched && f['categoryName'].invalid">
+            Category name is required.
+          </div>
         </div>
 
         <div class="col-md-6 my-3">
           <label for="status" class="form-label">Status</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected disabled>Select Status</option>
-            <option value="1">Active</option>
-            <option value="2">Inactive</option>
+          <select class="form-select" id="status" formControlName="status">
+            <option [ngValue]="null" disabled>Select Status</option>
+            <option [ngValue]="true">Active</option>
+            <option [ngValue]="false">Inactive</option>
           </select>
+          <div
+            *ngIf="f.status.touched && f.status.invalid"
+            class="text-danger small"
+          >
+            Status is required.
+          </div>
         </div>
 
         <div class="col-md-12 my-3">
           <label for="description" class="form-label">Description</label>
-          <textarea name="description" class="form-control" rows="5"></textarea>
+          <textarea
+            name="description"
+            class="form-control"
+            rows="5"
+            id="description"
+            formControlName="description"
+          ></textarea>
+          <div
+            *ngIf="f.description.touched && f.description.invalid"
+            class="text-danger small"
+          >
+            Description is required.
+          </div>
+        </div>
+
+        <div class="col d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-outline-danger my-3 me-3"
+            (click)="onCancel()"
+            [disabled]="saving"
+            style="width: 180px"
+          >
+            <i class="bi bi-x-lg me-1"></i>
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-outline-primary my-3"
+            [disabled]="saving"
+            style="width: 180px"
+          >
+            <i class="bi bi-floppy-fill me-1"></i>
+            {{ isEdit ? "Update" : "Create" }}
+          </button>
         </div>
       </div>
     </form>

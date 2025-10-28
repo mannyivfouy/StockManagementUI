@@ -101,11 +101,11 @@ export class UserListComponent implements OnInit {
 
   confirmAndDelete(userID?: any): void {
     if (!userID) {
-      console.warn('User ID missing, cannot delete');
+      console.warn('User ID Missing, Cannot Delete');
       return;
     }
 
-    if (!confirm(`Delete this user? This cannot be undone.`)) return;
+    if (!confirm(`Delete This User? This Cannot Be Undone.`)) return;
 
     this.userService.deleteUserById(userID).subscribe({
       next: () => {
@@ -115,7 +115,7 @@ export class UserListComponent implements OnInit {
         
         this.deletedUsername = deletedUser?.username || '';        
       },
-      error: (err) => alert(err?.error?.message || 'Delete failed'),
+      error: (err) => alert(err?.error?.message || 'Delete Failed'),
     });
   }
 

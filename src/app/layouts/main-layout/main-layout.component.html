@@ -4,7 +4,7 @@
     class="d-flex flex-column flex-grow-1"
     [ngStyle]="{
       opacity: pageOpacity,
-      transition: 'opacity 0.4s ease-in-out'
+      transition: 'opacity 0.5s ease-in-out'
     }"
   >
     <app-header></app-header>
@@ -12,7 +12,7 @@
       class="flex-grow-1 p-4 overflow-auto bg-light"
       [ngStyle]="{
         opacity: pageOpacity,
-        transition: 'opacity 0.4s ease-in-out'
+        transition: 'opacity 0.5s ease-in-out'
       }"
     >
       <router-outlet (activate)="onRouteChange()"></router-outlet>
@@ -29,3 +29,4 @@
     </main>
   </div>
 </div> -->
+
