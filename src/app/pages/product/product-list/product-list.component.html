@@ -32,7 +32,7 @@
             aria-label="Default select example"
             name="category"
           >
-            <!-- <option selected disabled>Select Categories</option> -->
+            <option value="">All Categories</option>
             <option
               *ngFor="let category of category"
               [value]="category.categoryName"
@@ -83,11 +83,24 @@
           <td class="text-center" style="vertical-align: middle">
             {{ (currentPage - 1) * pageSize + i + 1 }}
           </td>
-          <td style="width: 48px">image</td>
+          <td style="width: 48px; height: 48px">
+            <img
+              *ngIf="p?.productImage"
+              [src]="'http://localhost:4000' + p.productImage"
+              alt="{{ p.productName }}"
+              style="
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 4px;
+              "
+            />
+            <span *ngIf="!p?.productImage">No Image</span>
+          </td>
           <td>{{ p?.productName }}</td>
-          <td>{{ p?.price }}</td>
+          <td>{{ p?.price | currency : "USD" : "symbol" : "1.2-2" }}</td>
           <td>{{ p?.stock }}</td>
-          <td>{{ p?.amount }}</td>
+          <td>{{ p?.amount | currency : "USD" : "symbol" : "1.2-2" }}</td>
           <td>{{ getCategoryName(p?.categoryID ?? 0) }}</td>
           <td>{{ p?.description }}</td>
           <td [ngClass]="p?.status ? 'text-success' : 'text-danger'">

@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Category } from './category.service';
+
+export interface Category {
+  categoryID: any;
+  categoryName: string;
+  description: string;
+  status: boolean;
+}
 
 export interface Product {
-  productID?: number;
+  productID?: any;
   productImage?: string;
   productName?: string;
   price?: number;
-  stock?: number;  
+  stock?: number;
   amount?: number;
-  categoryID?: number;
+  categoryID?: any;
   categoryName?: string;
   description?: string;
   status?: boolean;
@@ -25,34 +31,28 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  //! Get All Categories
+  // Categories
   getAllCategory(): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoryAPI);
   }
 
-  //! Get Category By ID
-  getCategoryById(categoryID: number) {
+  getCategoryById(categoryID: number): Observable<Category> {
     return this.http.get<Category>(`${this.categoryAPI}/id/${categoryID}`);
   }
 
-  //! Get All Products
+  // Products
   getAllProduct(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productAPI);
   }
 
-  //! Get Product By ID
-  getProductById(productID: number) {
+  getProductById(productID: number): Observable<Product> {
     return this.http.get<Product>(`${this.productAPI}/id/${productID}`);
   }
 
-  //! Delete Product By ID
-  deleteProductById(productID: number) {
-    return this.http.delete(
-      `${this.productAPI}/id/${encodeURIComponent(productID)}`
-    );
+  createProduct(payload: any) {
+    return this.http.post(this.productAPI, payload);
   }
 
-  //! Update Product By ID
   updateProductById(productID: any, payload: any) {
     return this.http.put(
       `${this.productAPI}/id/${encodeURIComponent(productID)}`,
@@ -60,8 +60,8 @@ export class ProductService {
     );
   }
 
-  //! Add Product
-  createProduct(payload: any) {
-    return this.http.post(this.productAPI, payload);
+  deleteProductById(productID: number | string) {
+    const id = String(productID);
+    return this.http.delete(`${this.productAPI}/id/${encodeURIComponent(id)}`);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/api/user.service';
 import { ProductService } from '../../services/api/product.service';
 import { CategoryService } from '../../services/api/category.service';
+import { ReportService } from '../../services/api/report.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,11 +14,13 @@ export class DashboardComponent implements OnInit {
   totalUser = 0;
   totalProduct = 0;
   totalCategory = 0;
+  totalReport = 0;
 
   constructor(
     private userService: UserService,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private reportService : ReportService
   ) {}
 
   ngOnInit() {
@@ -38,6 +41,6 @@ export class DashboardComponent implements OnInit {
     this.productService.getAllProduct().subscribe({
       next: (products) => (this.totalProduct = products.length),
       error: (err) => console.error('Error Loading Product', err),
-    });
+    });       
   }
 }

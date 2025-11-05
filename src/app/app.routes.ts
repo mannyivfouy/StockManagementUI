@@ -10,6 +10,7 @@ import { ProductListComponent } from './pages/product/product-list/product-list.
 import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 import { CategoryListComponent } from './pages/category/category-list/category-list.component';
 import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
+import { ReportComponent } from './pages/report/report.component';
 
 export const routes: Routes = [
   {
@@ -95,6 +96,11 @@ export const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'report',
+        component: ReportComponent,
+        data: {title: 'Reports'}
+      }
     ],
   },
 ];

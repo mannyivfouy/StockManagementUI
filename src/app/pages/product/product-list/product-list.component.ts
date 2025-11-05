@@ -7,6 +7,7 @@ import {
   CategoryService,
 } from '../../../services/api/category.service';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
 @Component({
   selector: 'app-product-list',
   imports: [RouterLink, CommonModule, FormsModule],
@@ -70,7 +71,7 @@ export class ProductListComponent implements OnInit {
 
   getCategoryName(categoryID: number): string {
     const cat = this.category.find((c) => c.categoryID === categoryID);
-    return cat?.categoryName ?? 'Unknown';    
+    return cat?.categoryName ?? 'Unknown';
   }
 
   get pagedProducts(): Product[] {
@@ -109,10 +110,23 @@ export class ProductListComponent implements OnInit {
   }
 
   get filteredProducts(): Product[] {
-    if (!this.searchTerm) return this.product || [];
-    return (this.product || []).filter((p) =>
-      (p.productName || '').toLowerCase().includes(this.searchTerm)
-    );
+    let filtered = this.product || [];
+
+    // Filter by category if selected
+    if (this.selectCategoryName && this.selectCategoryName !== '') {
+      filtered = filtered.filter(
+        (p) => this.getCategoryName(p.categoryID) === this.selectCategoryName
+      );
+    }
+
+    // Filter by search term
+    if (this.searchTerm) {
+      filtered = filtered.filter((p) =>
+        (p.productName || '').toLowerCase().includes(this.searchTerm)
+      );
+    }
+
+    return filtered;
   }
 
   confirmAndDelete(productID?: any): void {
