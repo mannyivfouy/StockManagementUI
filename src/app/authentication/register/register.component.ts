@@ -90,7 +90,7 @@ export class RegisterComponent {
         next: (res: any) => {
           // success: reset form and navigate
           this.registerForm.reset();
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/store']);
         },
         error: (err) => {
           // handle server validation / duplicate key errors

@@ -68,14 +68,33 @@ export class UserService {
       .pipe(map((res) => res.url));
   }
 
-  login(payload: { username: string; password: string }): Observable<any> {
+  // login(payload: { username: string; password: string }): Observable<any> {
+  //   return this.http
+  //     .post<{ token: string; user: User }>(`${this.userAPI}/login`, payload)
+  //     .pipe(
+  //       tap((res) => {
+  //         // update BehaviorSubject if token+user returned
+  //         if (res?.user) {
+  //           this.currentUserSubject.next(res.user);
+  //         }
+  //       })
+  //     );
+  // }
+
+  login(payload: { username: string; password: string }) {
     return this.http
       .post<{ token: string; user: User }>(`${this.userAPI}/login`, payload)
       .pipe(
         tap((res) => {
-          // update BehaviorSubject if token+user returned
+          if (res?.token) {
+            // persist to localStorage for simple auth (beginner-friendly)
+            localStorage.setItem('auth_token', res.token);
+          }
           if (res?.user) {
+            // keep current user in memory and storage
             this.currentUserSubject.next(res.user);
+            localStorage.setItem('current_user', JSON.stringify(res.user));
+            localStorage.setItem('isLoggedIn', 'true');
           }
         })
       );

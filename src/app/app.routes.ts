@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { authGuard } from './guards/auth.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { UserFormComponent } from './pages/user/user-form/user-form.component';
@@ -11,6 +10,8 @@ import { ProductFormComponent } from './pages/product/product-form/product-form.
 import { CategoryListComponent } from './pages/category/category-list/category-list.component';
 import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
 import { ReportComponent } from './pages/report/report.component';
+import { StoreComponent } from './store/store.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -29,12 +30,12 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        data: { title: 'Dashboard' },
+        data: { title: 'Dashboard', role: 'admin' },
       },
       {
         path: 'user',
@@ -42,17 +43,17 @@ export const routes: Routes = [
           {
             path: '',
             component: UserListComponent,
-            data: { title: 'Users' },
+            data: { title: 'Users', role: 'admin' },
           },
           {
             path: 'createUser',
             component: UserFormComponent,
-            data: { title: 'User Form' },
+            data: { title: 'User Form', role: 'admin' },
           },
           {
             path: 'editUser/:id',
             component: UserFormComponent,
-            data: { title: 'User Form' },
+            data: { title: 'User Form', role: 'admin' },
           },
         ],
       },
@@ -62,17 +63,17 @@ export const routes: Routes = [
           {
             path: '',
             component: ProductListComponent,
-            data: { title: 'Products' },
+            data: { title: 'Products', role: 'admin' },
           },
           {
             path: 'createProduct',
             component: ProductFormComponent,
-            data: { title: 'Product Form' },
+            data: { title: 'Product Form', role: 'admin' },
           },
           {
             path: 'editProduct/:id',
             component: ProductFormComponent,
-            data: { title: 'Product Form' },
+            data: { title: 'Product Form', role: 'admin' },
           },
         ],
       },
@@ -82,25 +83,30 @@ export const routes: Routes = [
           {
             path: '',
             component: CategoryListComponent,
-            data: { title: 'Categories' },
+            data: { title: 'Categories', role: 'admin' },
           },
           {
             path: 'createCategory',
             component: CategoryFormComponent,
-            data: { title: 'Category Form' },
+            data: { title: 'Category Form', role: 'admin' },
           },
           {
             path: 'editCategory/:id',
             component: CategoryFormComponent,
-            data: { title: 'Category Form' },
+            data: { title: 'Category Form', role: 'admin' },
           },
         ],
       },
       {
         path: 'report',
         component: ReportComponent,
-        data: {title: 'Reports'}
-      }
+        data: { title: 'Reports', role: 'admin' },
+      },
     ],
+  },
+  {
+    path: 'store',
+    component: StoreComponent,
+    canActivate: [AuthGuard],
   },
 ];
