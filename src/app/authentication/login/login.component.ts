@@ -46,53 +46,6 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  // submitLogin() {
-  //   if (this.loginForm.invalid) {
-  //     this.loginForm.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   const payload = {
-  //     username: this.username?.value as string,
-  //     password: this.password?.value as string,
-  //   };
-
-  //   this.loading = true;
-  //   this.userService
-  //     .login(payload)
-  //     .pipe(finalize(() => (this.loading = false)))
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log('Login success', res);
-  //         localStorage.setItem('isLoggedIn', 'true');
-  //         this.router.navigate(['/dashboard']);
-
-  //         if (res?.token) {
-  //           console.log('[login] server token:', res.token);
-  //           localStorage.setItem('auth_token', res.token);
-  //           localStorage.setItem('current_user', JSON.stringify(res.user));
-  //           localStorage.setItem(
-  //             'current_user',
-  //             JSON.stringify(res.user ?? {})
-  //           );
-  //           // localStorage.setItem('isLoggedIn', 'true'); // optional for older guard
-  //           console.log(
-  //             '[login] token saved to localStorage:',
-  //             localStorage.getItem('auth_token')
-  //           );
-  //           // now navigate
-  //           this.router.navigate(['/dashboard']);
-  //         } else {
-  //           console.error('[login] unexpected response, no token', res);
-  //         }
-  //       },
-  //       error: (err) => {
-  //         this.error = 'Invalid username or password';
-  //         console.error(err);
-  //       },
-  //     });
-  // }
-
   submitLogin() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -118,6 +71,15 @@ export class LoginComponent {
             console.error('[login] unexpected response', res);
             return;
           }
+
+          localStorage.setItem('token', res.token);
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              userID: res.user.userID || res.user.id, // ensure ID exists
+              username: res.user.username || res.user.fullname || 'Guest',
+            })
+          );
 
           // current user and token already saved by UserService.login() tap
           const role = (res.user.role || 'user').toString().toLowerCase();

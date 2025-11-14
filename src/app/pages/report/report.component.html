@@ -1,1 +1,148 @@
-<p>report works!</p>
+<div class="report-page d-flex flex-column">
+  <!-- Top Row: Search -->
+  <div class="top-bar">
+    <div class="d-flex justify-content-between align-items-end">
+      <div class="col-3 p-0">
+        <h3>All Reports</h3>
+        <form>
+          <label for="search" class="form-label">Search Report</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              id="search"
+              type="search"
+              class="form-control"
+              placeholder="Search by Report ID, Username or Product"
+              (input)="onSearch($event)"
+              aria-label="Search Reports"
+            />
+          </div>
+        </form>
+      </div>
+
+      <!-- <div class="text-end small text-muted">
+        Total: {{ filtered.length || 0 }} reports
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Middle Row: Scrollable report list -->
+  <div
+    class="report-list flex-grow-1 overflow-auto mt-5"
+    style="height: 615px; scrollbar-width: none"
+  >
+    <div *ngIf="loading" class="w-100 text-center py-4">Loading...</div>
+    <div *ngIf="error" class="w-100 alert alert-danger">{{ error }}</div>
+
+    <div *ngIf="!loading && paged.length > 0">
+      <div class="accordion" id="reportAccordion">
+        <div *ngFor="let r of paged; let i = index" class="accordion-item mb-2">
+          <h2 class="accordion-header" id="heading{{ r.reportID }}">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              (click)="toggleExpand(r.reportID)"
+            >
+              <div
+                class="d-flex justify-content-between w-100 align-items-center"
+              >
+                <div>
+                  <strong>#{{ r.reportID }}</strong> — {{ r.username || "U" }}
+                  <small class="text-muted ms-2">{{
+                    r.purchase_date || r.create_date || "N/A"
+                  }}</small>
+                </div>
+                <div>
+                  <span class="fw-bold">{{
+                    formatCurrency(r.totalAmount)
+                  }}</span>
+                </div>
+              </div>
+            </button>
+          </h2>
+
+          <div
+            [hidden]="!isExpanded(r.reportID)"
+            class="accordion-collapse collapse show"
+          >
+            <div class="accordion-body">
+              <div class="mb-2">
+                <strong>Products Purchased:</strong>
+                <div class="d-flex flex-wrap gap-2 mt-1">
+                  <span
+                    class="badge bg-light border text-dark"
+                    *ngFor="let it of r.items ?? []"
+                  >
+                    {{ it.productName }} x{{ it.qty }} ({{
+                      formatCurrency(it.price)
+                    }}
+                    each)
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-3 p-2 bg-light rounded">
+                <div class="small text-muted">Report Details</div>
+                <div><strong>User ID:</strong> {{ r.userID }}</div>                
+                <div><strong>Username :</strong> {{ r.username }}</div>
+                <div><strong>Report ID:</strong> {{ r.reportID }}</div>
+                <div>
+                  <strong>Total Amount:</strong>
+                  {{ formatCurrency(r.totalAmount) }}
+                </div>
+                <div>
+                  <strong>Purchase Date:</strong> {{ r.purchase_date || "N/A" }}
+                </div>
+                <div><strong>Created:</strong> {{ r.create_date }}</div>
+                <div>
+                  <strong>Total Items:</strong> {{ r.items?.length || 0 }}
+                </div>
+                <!-- <div>
+                  <strong>Products Summary:</strong>
+                  <ul class="mb-0 ps-3">
+                    <li *ngFor="let it of r.items ?? []">
+                      {{ it.productName }} — Qty: {{ it.qty }}, Price:
+                      {{ formatCurrency(it.price) }}, Subtotal:
+                      {{ formatCurrency(itemSubtotal(it)) }}
+                    </li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && paged.length === 0" class="w-100">
+      <div class="alert alert-info text-center">No reports found.</div>
+    </div>
+  </div>
+
+  <!-- Bottom Row: Sticky Pagination -->
+  <!-- <div class="bottom-bar p-3 border-top bg-white">
+    <div class="d-flex justify-content-center align-items-center gap-3">
+      <button
+        class="btn btn-outline-primary"
+        (click)="prev()"
+        [disabled]="currentPage === 1"
+      >
+        <i class="bi bi-arrow-left-circle me-1"></i> Previous
+      </button>
+
+      <span class="fw-semibold">
+        Page {{ currentPage }} of {{ totalPages() }}
+      </span>
+
+      <button
+        class="btn btn-outline-primary"
+        (click)="next()"
+        [disabled]="currentPage === totalPages()"
+      >
+        Next <i class="bi bi-arrow-right-circle ms-1"></i>
+      </button>
+    </div>
+  </div> -->
+</div>

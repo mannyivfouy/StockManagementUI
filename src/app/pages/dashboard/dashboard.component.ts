@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     private userService: UserService,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private reportService : ReportService
+    private reportService: ReportService
   ) {}
 
   ngOnInit() {
@@ -41,6 +41,11 @@ export class DashboardComponent implements OnInit {
     this.productService.getAllProduct().subscribe({
       next: (products) => (this.totalProduct = products.length),
       error: (err) => console.error('Error Loading Product', err),
-    });       
+    });
+
+    this.reportService.getAllReport().subscribe({
+      next: (reports) => (this.totalReport = reports.length),
+      error: (err) => console.error('Error Loading Report', err),
+    });
   }
 }

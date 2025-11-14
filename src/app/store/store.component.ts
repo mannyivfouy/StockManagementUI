@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { StoreService, Product, Category } from '../services/api/store.service';
+import { ReportService } from '../services/api/report.service';
 
 interface CartItem {
   product: Product;
@@ -28,7 +30,13 @@ export class StoreComponent implements OnInit {
   pageSize = 8;
   cartItems: CartItem[] = [];
 
-  constructor(private service: StoreService) {}
+  // report state
+  isSendingReports = false;
+
+  constructor(
+    private service: StoreService,
+    private reportService: ReportService
+  ) {}
 
   ngOnInit() {
     this.loadCategories();
@@ -47,7 +55,6 @@ export class StoreComponent implements OnInit {
 
   get filteredProducts(): Product[] {
     let filtered = this.products.slice();
-
     if (this.selectedCategory)
       filtered = filtered.filter(
         (p) => p.categoryName === this.selectedCategory
@@ -56,7 +63,6 @@ export class StoreComponent implements OnInit {
       filtered = filtered.filter((p) =>
         p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
-
     return filtered;
   }
 
@@ -73,6 +79,7 @@ export class StoreComponent implements OnInit {
   nextPage() {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
+
   prevPage() {
     if (this.currentPage > 1) this.currentPage--;
   }
@@ -81,17 +88,17 @@ export class StoreComponent implements OnInit {
     this.selectedCategory = category;
     this.currentPage = 1;
   }
+
   clearCategoryFilter() {
     this.selectedCategory = null;
     this.currentPage = 1;
   }
+
   onSearch() {
     this.currentPage = 1;
   }
 
-  // inside StoreComponent
   getProductImage(product: Product): string {
-    // If backend image exists, prepend server URL
     if (
       product.productImage &&
       !product.productImage.includes('assets/default-product.png')
@@ -104,6 +111,7 @@ export class StoreComponent implements OnInit {
   toggleCart() {
     this.showCart = !this.showCart;
   }
+
   addToCart(product: Product) {
     const existing = this.cartItems.find(
       (c) => c.product.productID === product.productID
@@ -117,27 +125,34 @@ export class StoreComponent implements OnInit {
       (c) => c.product.productID === product.productID
     );
   }
+
   increaseQty(item: CartItem) {
     item.qty += 1;
   }
+
   decreaseQty(item: CartItem) {
     item.qty = Math.max(1, item.qty - 1);
   }
+
   removeItem(item: CartItem) {
     this.cartItems = this.cartItems.filter((c) => c !== item);
   }
+
   clearCart() {
     this.cartItems = [];
   }
+
   totalQuantity(): number {
     return this.cartItems.reduce((s, c) => s + c.qty, 0);
   }
+
   subtotal(): number {
     return this.cartItems.reduce(
       (s, c) => s + c.qty * (c.product.price || 0),
       0
     );
   }
+
   total(): number {
     return this.subtotal();
   }
@@ -149,20 +164,79 @@ export class StoreComponent implements OnInit {
     }
     this.showConfirmPopup = true;
   }
+
   closeConfirm() {
     this.showConfirmPopup = false;
   }
 
-  confirmCheckout() {
-    alert('Order confirmed');
-    this.clearCart();
-    this.showConfirmPopup = false;
-    this.showCart = false;
+  private getLoggedInUser(): { userID: number; username: string } | null {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        const u = JSON.parse(userJson);
+        if (u.userID && u.username) {
+          return { userID: Number(u.userID), username: u.username };
+        }
+      } catch {}
+    }
+
+    const token =
+      localStorage.getItem('token') || localStorage.getItem('authToken');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.userID && payload.username) {
+          return { userID: Number(payload.userID), username: payload.username };
+        }
+      } catch {}
+    }
+
+    return null;
   }
 
+  async confirmCheckout() {
+    if (!this.cartItems.length) return;
+
+    const user = this.getLoggedInUser();
+    if (!user) {
+      alert('Please login before checkout.');
+      return;
+    }
+
+    const items = this.cartItems.map((ci) => ({
+      productID: Number(ci.product.productID),
+      qty: Number(ci.qty),
+    }));
+
+    const payload = {
+      userID: user.userID,
+      username: user.username,
+      purchase_date: new Date().toISOString(),
+      items,
+      totalAmount: this.total(),
+    };
+
+    try {
+      this.isSendingReports = true;
+      await firstValueFrom(this.reportService.createReport(payload));
+      this.clearCart();
+      this.showConfirmPopup = false;
+      this.showCart = false;
+      this.showToast('Purchase successful!');
+    } catch (err) {
+      console.error('Failed to create report', err);
+      alert('Failed to record order. Please try again.');
+    } finally {
+      this.isSendingReports = false;
+    }
+  }
+
+  // -----------------------------
+  // Receipt
+  // -----------------------------
   printReceipt() {
     let receiptText = `
-          RECEIPT
+                 RECEIPT
 --------------------------------------------
 No   Product Name     Qty     Price
 --------------------------------------------
@@ -171,17 +245,10 @@ No   Product Name     Qty     Price
     let total = 0;
     this.cartItems.forEach((ci, index) => {
       let name = ci.product.productName || '';
-
-      // Truncate name to max 15 chars for receipt
-      if (name.length > 15) {
-        name = name.substring(0, 12) + '...'; // 12 + 3 dots = 15
-      }
-
+      if (name.length > 15) name = name.substring(0, 12) + '...';
       const qty = ci.qty;
       const price = ci.product.price || 0;
       total += qty * price;
-
-      // Pad the name to 15 characters for alignment
       receiptText += `${(index + 1).toString().padEnd(3)} ${name.padEnd(
         15
       )} ${qty.toString().padStart(3)}    $${price.toFixed(2).padStart(6)}\n`;
@@ -219,5 +286,27 @@ Total: $${total.toFixed(2)}
         if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
       }
     }, 200);
+  }
+
+  // -----------------------------
+  // Toast
+  // -----------------------------
+  private showToast(msg: string) {
+    try {
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.style.position = 'fixed';
+      el.style.bottom = '20px';
+      el.style.right = '20px';
+      el.style.background = 'rgba(0,0,0,0.8)';
+      el.style.color = 'white';
+      el.style.padding = '8px 12px';
+      el.style.borderRadius = '6px';
+      el.style.zIndex = '9999';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2500);
+    } catch {
+      alert(msg);
+    }
   }
 }

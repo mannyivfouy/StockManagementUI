@@ -117,109 +117,6 @@
 
   <!-- Cart drawer -->
   <div class="cart-backdrop" *ngIf="showCart" (click)="toggleCart()"></div>
-  <!-- <aside
-    class="cart-drawer"
-    [class.open]="showCart"
-    (click)="$event.stopPropagation()"
-  >
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="mb-0">Your Cart</h5>
-      <button class="btn btn-sm btn-danger" (click)="toggleCart()">
-        <i class="bi bi-x-lg text-white"></i>
-      </button>
-    </div>
-
-    <div *ngIf="cartItems.length === 0" class="text-center text-muted mt-5">
-      <i class="bi bi-cart"></i>
-      <div>Your cart is empty</div>
-    </div>
-
-    <div *ngIf="cartItems.length > 0" class="cart-items">
-      <div
-        *ngFor="let ci of cartItems"
-        class="cart-item d-flex gap-3 align-items-center py-2 border-bottom"
-      >
-        <img
-          [src]="getProductImage(ci.product)"
-          style="
-            width: 64px;
-            height: 64px;
-            object-fit: cover;
-            border-radius: 6px;
-          "
-        />
-
-        <div class="flex-grow-1">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="fw-bold">{{ ci.product.productName }}</div>
-              <small class="text-muted">{{
-                ci.product.categoryName || "No Category"
-              }}</small>
-            </div>
-            <div class="text-end">
-              <div class="fw-semibold">
-                $ {{ ci.product.price | number : "1.2-2" }}
-              </div>
-              <small class="text-muted">unit</small>
-            </div>
-          </div>
-          <div class="d-flex align-items-center gap-2 mt-2">
-            <div class="input-group input-group-sm w-auto">
-              <button
-                class="btn btn-outline-secondary"
-                (click)="decreaseQty(ci)"
-              >
-                -
-              </button>
-              <input
-                class="form-control text-center"
-                [value]="ci.qty"
-                readonly
-                style="width: 48px"
-              />
-              <button
-                class="btn btn-outline-secondary"
-                (click)="increaseQty(ci)"
-              >
-                +
-              </button>
-            </div>
-            <button
-              class="btn btn-sm btn-outline-danger ms-2"
-              (click)="removeItem(ci)"
-            >
-              Remove
-            </button>
-            <div class="ms-auto fw-bold">
-              $ {{ ci.product.price * ci.qty | number : "1.2-2" }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-3">
-        <div class="d-flex justify-content-between">
-          <div>Subtotal</div>
-          <div class="fw-bold">$ {{ subtotal() | number : "1.2-2" }}</div>
-        </div>
-        <hr />
-        <div class="d-flex justify-content-between fs-5 fw-bold">
-          <div>Total</div>
-          <div>$ {{ total() | number : "1.2-2" }}</div>
-        </div>
-        <div class="d-flex gap-2 mt-3">
-          <button class="btn btn-primary flex-grow-1" (click)="checkout()">
-            Checkout
-          </button>
-          <button class="btn btn-outline-danger" (click)="clearCart()">
-            Clear
-          </button>
-        </div>
-      </div>
-    </div>
-  </aside> -->
-
   <aside
     class="cart-drawer"
     [class.open]="showCart"
@@ -231,6 +128,8 @@
         <i class="bi bi-x-lg text-white"></i>
       </button>
     </div>
+
+    
 
     <!-- Scrollable cart items -->
     <div class="cart-items-scroll" *ngIf="cartItems.length > 0">
@@ -295,6 +194,13 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div
+      *ngIf="cartItems.length === 0"
+      class="d-flex align-items-center justify-content-center"
+    >      
+      <p>Your Cart is Empty</p>
     </div>
 
     <!-- Footer with subtotal and buttons -->
