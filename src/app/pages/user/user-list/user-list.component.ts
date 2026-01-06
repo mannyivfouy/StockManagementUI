@@ -20,7 +20,7 @@ export class UserListComponent implements OnInit {
   private searchTerm = '';
   private debounceTimer: number | null = null;
   private debounceMs = 300;
-  
+
   deletedUsername = '';
 
   private serverUrl = 'http://localhost:4000';
@@ -104,7 +104,7 @@ export class UserListComponent implements OnInit {
       console.warn('User ID Missing, Cannot Delete');
       return;
     }
-
+      
     if (!confirm(`Delete This User? This Cannot Be Undone.`)) return;
 
     this.userService.deleteUserById(userID).subscribe({
@@ -112,8 +112,8 @@ export class UserListComponent implements OnInit {
         // Remove user from list
         const deletedUser = this.user.find((u) => u.userID === userID);
         this.user = this.user.filter((u) => u.userID !== userID);
-        
-        this.deletedUsername = deletedUser?.username || '';        
+
+        this.deletedUsername = deletedUser?.username || '';
       },
       error: (err) => alert(err?.error?.message || 'Delete Failed'),
     });

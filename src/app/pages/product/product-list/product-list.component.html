@@ -29,8 +29,8 @@
           <select
             class="form-select"
             [(ngModel)]="selectCategoryName"
+            name="category"
             aria-label="Default select example"
-            name="category"            
           >
             <option value="">All Categories</option>
             <option
@@ -74,7 +74,7 @@
           <th class="amount">Amount</th>
           <th class="category">Category</th>
           <th class="description">Description</th>
-          <th class="status">Status</th>
+          <!-- <th class="status">Status</th> -->
           <th class="action">Action</th>
         </tr>
       </thead>
@@ -99,13 +99,35 @@
           </td>
           <td>{{ p?.productName }}</td>
           <td>{{ p?.price | currency : "USD" : "symbol" : "1.2-2" }}</td>
-          <td>{{ p?.stock }}</td>
+          <td>
+            {{ p?.stock }} <br>       
+            <span *ngIf="isOutOfStock(p?.stock)" class="out-of-stock-badge">
+              Out Of Stock
+            </span>
+            <span *ngIf="isLowStock(p?.stock)" class="low-stock-badge">
+              Low Stock
+            </span>            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </td>
           <td>{{ p?.amount | currency : "USD" : "symbol" : "1.2-2" }}</td>
           <td>{{ getCategoryName(p?.categoryID ?? 0) }}</td>
           <td>{{ p?.description }}</td>
-          <td [ngClass]="p?.status ? 'text-success' : 'text-danger'">
+          <!-- <td [ngClass]="p?.status ? 'text-success' : 'text-danger'">
             {{ p?.status ? "Active" : "Inactive" }}
-          </td>
+          </td> -->
           <td>
             <button
               class="btn btn-outline-primary me-3"
@@ -128,7 +150,7 @@
         </tr>
 
         <tr *ngIf="!loading && pagedProducts.length === 0">
-          <td colspan="10" class="text-center">No Category Found.</td>
+          <td colspan="10" class="text-center">No Product Found.</td>
         </tr>
       </tbody>
     </table>

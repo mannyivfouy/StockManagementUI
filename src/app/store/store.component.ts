@@ -218,6 +218,7 @@ export class StoreComponent implements OnInit {
 
     try {
       this.isSendingReports = true;
+      await firstValueFrom(this.service.createPurchase(payload));
       await firstValueFrom(this.reportService.createReport(payload));
       this.clearCart();
       this.showConfirmPopup = false;

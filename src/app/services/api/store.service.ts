@@ -35,4 +35,8 @@ export class StoreService {
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.API}/category`);
   }
+
+  createPurchase(payload: any): Observable<any> {
+    return this.http.post(`${this.API}/purchase`, payload)
+  }
 }

@@ -15,7 +15,7 @@ export class ReportComponent implements OnInit {
   reports: Report[] = [];
   filtered: Report[] = [];
   paged: Report[] = [];
-  pageSize = 6;
+  pageSize = 10000;
   currentPage = 1;
   loading = false;
   error = '';
@@ -98,7 +98,7 @@ export class ReportComponent implements OnInit {
     else this.expanded.add(id);
   }
 
-  isExpanded(id: any) {
+isExpanded(id: any) {
     return this.expanded.has(id);
   }
 

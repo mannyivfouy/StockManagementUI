@@ -77,7 +77,7 @@ export class UserFormComponent implements OnInit {
     if (!this.isEdit) {
       this.userForm.get('password')?.setValidators([Validators.required]);
       this.userForm.get('password')?.updateValueAndValidity();
-    }
+    } 
   }
 
   togglePasswordVisibility() {
@@ -155,7 +155,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  onCancel() {    
+  onCancel() {
     this.router.navigate(['/user']);
   }
 

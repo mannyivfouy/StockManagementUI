@@ -3,7 +3,7 @@
     <h3>Personal Information</h3>
   </div>
   <div class="row">
-    <form
+    <form 
       [formGroup]="userForm"
       (ngSubmit)="submitUserForm()"
       (ngSubmit)="onCancel()"
@@ -16,7 +16,7 @@
             <span class="input-group-text bg-primary text-white">
               <i class="bi bi-person-lines-fill"></i>
             </span>
-            <input
+            <input  
               type="text"
               class="form-control"
               placeholder="Enter Fullname"

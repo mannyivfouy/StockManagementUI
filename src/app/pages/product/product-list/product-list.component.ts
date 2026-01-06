@@ -159,4 +159,12 @@ export class ProductListComponent implements OnInit {
         console.log('Navigate Error', err);
       });
   }
+
+  isOutOfStock(stock: number | null | undefined): boolean {
+    return stock === 0 || stock === null;
+  }
+
+  isLowStock(stock: number | null | undefined): boolean {
+    return stock != null && stock > 0 && stock < 20
+  }
 }

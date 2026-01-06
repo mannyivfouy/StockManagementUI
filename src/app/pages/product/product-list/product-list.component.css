@@ -3,48 +3,69 @@ table {
   width: 100%;
 }
 
-th,td{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+th,
+td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-th.no{
-    width: 40px;
+th.no {
+  width: 40px;
 }
 
-th.image{
-    width: 60px;
+th.image {
+  width: 60px;
 }
 
-th.name{
-    width: 180px;
+th.name {
+  width: 180px;
 }
 
-th.price{
-    width: 90px;
+th.price {
+  width: 90px;
 }
 
-th.stock{
-    width: 90px;
+th.stock {
+  width: 90px;
 }
 
-th.amount{
-    width: 90px;
+th.amount {
+  width: 90px;
 }
 
-th.category{
-    width: 90px;
+th.category {
+  width: 90px;
 }
 
-th.description{
-    width: 120px;
+th.description {
+  width: 120px;
 }
 
-th.status{
-    width: 90px;
+th.status {
+  width: 90px;
 }
 
-th.action{
-    width: 180px;
+th.action {
+  width: 180px;
+}
+
+.out-of-stock-badge {
+  background-color: red;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.80rem;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.low-stock-badge {
+  background-color: orange;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-left: 5px;
+  font-weight: bold;
 }
