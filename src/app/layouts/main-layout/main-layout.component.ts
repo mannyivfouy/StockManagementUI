@@ -18,6 +18,6 @@ export class MainLayoutComponent {
 
     setTimeout(() => {      
       this.pageOpacity = 1;      
-    }, 500);
+    }, 300);
   }
 }

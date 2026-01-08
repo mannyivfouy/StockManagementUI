@@ -74,7 +74,7 @@
           <th class="amount">Amount</th>
           <th class="category">Category</th>
           <th class="description">Description</th>
-          <!-- <th class="status">Status</th> -->
+          <th class="status">Status</th>
           <th class="action">Action</th>
         </tr>
       </thead>
@@ -99,35 +99,40 @@
           </td>
           <td>{{ p?.productName }}</td>
           <td>{{ p?.price | currency : "USD" : "symbol" : "1.2-2" }}</td>
-          <td>
-            {{ p?.stock }} <br>       
-            <span *ngIf="isOutOfStock(p?.stock)" class="out-of-stock-badge">
-              Out Of Stock
-            </span>
-            <span *ngIf="isLowStock(p?.stock)" class="low-stock-badge">
-              Low Stock
-            </span>            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          <td
+            [ngStyle]="{
+              color: isOutOfStock(p?.stock)
+                ? 'red'
+                : isLowStock(p?.stock)
+                ? 'orange'
+                : isActiveStock(p?.stock)
+                ? 'green'
+                : 'black'
+            }"
+          >
+            {{ p?.stock }}
           </td>
           <td>{{ p?.amount | currency : "USD" : "symbol" : "1.2-2" }}</td>
           <td>{{ getCategoryName(p?.categoryID ?? 0) }}</td>
           <td>{{ p?.description }}</td>
-          <!-- <td [ngClass]="p?.status ? 'text-success' : 'text-danger'">
-            {{ p?.status ? "Active" : "Inactive" }}
-          </td> -->
+          <td>
+            <span *ngIf="isProductInactive(p)" class="inactive-stock-badge">
+              Inactive
+            </span>
+
+            <ng-container *ngIf="!isProductInactive(p)">
+              <span *ngIf="isOutOfStock(p?.stock)" class="out-of-stock-badge">
+                Out Of Stock
+              </span>
+              <span *ngIf="isLowStock(p?.stock)" class="low-stock-badge">
+                Low Stock
+              </span>
+              <span *ngIf="isActiveStock(p?.stock)" class="active-stock-badge">
+                Good Stock
+              </span>
+            </ng-container>
+          </td>
+
           <td>
             <button
               class="btn btn-outline-primary me-3"

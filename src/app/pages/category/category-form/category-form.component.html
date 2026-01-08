@@ -17,7 +17,7 @@
             formControlName="categoryName"
             id="categoryName"
           />
-          <div *ngIf="f['categoryName'].touched && f['categoryName'].invalid">
+          <div *ngIf="f['categoryName'].touched && f['categoryName'].invalid" class="text-danger small">
             Category name is required.
           </div>
         </div>

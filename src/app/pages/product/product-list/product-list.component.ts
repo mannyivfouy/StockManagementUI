@@ -7,7 +7,6 @@ import {
   CategoryService,
 } from '../../../services/api/category.service';
 import { FormsModule } from '@angular/forms';
-import { filter } from 'rxjs';
 @Component({
   selector: 'app-product-list',
   imports: [RouterLink, CommonModule, FormsModule],
@@ -165,6 +164,21 @@ export class ProductListComponent implements OnInit {
   }
 
   isLowStock(stock: number | null | undefined): boolean {
-    return stock != null && stock > 0 && stock < 20
+    return stock != null && stock > 0 && stock <= 20;
+  }
+
+  isActiveStock(stock: number | null | undefined): boolean {
+    return stock != null && stock > 20;
+  }
+
+  isCategoryInactive(categoryID: number | null | undefined) {
+    if (!categoryID) return false;
+
+    const cat = this.category.find((c) => c.categoryID === categoryID);
+    return cat?.status === false;
+  }
+
+  isProductInactive(product: any): boolean {
+    return this.isCategoryInactive(product?.categoryID);
   }
 }

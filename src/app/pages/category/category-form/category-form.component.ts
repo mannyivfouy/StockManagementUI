@@ -147,6 +147,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             console.log('Category updated', res);
+
             this.saving = false;
             // navigate back to list
             this.router

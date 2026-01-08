@@ -46,7 +46,7 @@
         <tr>
           <th class="no">No.</th>
           <th class="name">Category Name</th>
-          <!-- <th class="status">Status</th> -->
+          <th class="status">Status</th>
           <th class="description">Description</th>
           <th class="date">Create Date</th>
           <th class="action">Action</th>
@@ -58,9 +58,9 @@
             {{ (currentPage - 1) * pageSize + i + 1 }}
           </td>
           <td>{{ c?.categoryName }}</td>
-          <!-- <td [ngClass]="c?.status ? 'text-success' : 'text-danger'">
+          <td [ngClass]="c?.status ? 'text-success' : 'text-danger'">
             {{ c?.status ? "Active" : "Inactive" }}
-          </td> -->
+          </td>
           <td>{{ c?.description }}</td>
           <td>{{ c?.created_date | date : "dd-MMM-yyyy" }}</td>
           <td>

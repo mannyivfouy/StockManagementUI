@@ -45,10 +45,15 @@
     <button
       class="btn me-2 mb-2"
       *ngFor="let c of categories"
-      [ngClass]="selectedCategory === c ? 'btn-primary' : 'btn-outline-primary'"
-      (click)="filterByCategory(c)"
+      [disabled]="!c.status"
+      [ngClass]="
+        selectedCategory === c.categoryName
+          ? 'btn-primary'
+          : 'btn-outline-primary'
+      "
+      (click)="filterByCategory(c.categoryName)"
     >
-      {{ c }}
+      {{ c.categoryName }}
     </button>
   </div>
 
@@ -129,8 +134,6 @@
       </button>
     </div>
 
-    
-
     <!-- Scrollable cart items -->
     <div class="cart-items-scroll" *ngIf="cartItems.length > 0">
       <div
@@ -199,7 +202,7 @@
     <div
       *ngIf="cartItems.length === 0"
       class="d-flex align-items-center justify-content-center"
-    >      
+    >
       <p>Your Cart is Empty</p>
     </div>
 

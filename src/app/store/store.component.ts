@@ -19,7 +19,7 @@ interface CartItem {
 })
 export class StoreComponent implements OnInit {
   products: Product[] = [];
-  categories: string[] = [];
+  categories: Category[] = [];
 
   // UI state
   showCart = false;
@@ -48,23 +48,31 @@ export class StoreComponent implements OnInit {
   }
 
   loadCategories() {
-    this.service
-      .getCategories()
-      .subscribe((res) => (this.categories = res.map((c) => c.categoryName)));
+    this.service.getCategories().subscribe((res: Category[]) => {
+      this.categories = res;
+    });
   }
 
   get filteredProducts(): Product[] {
-    let filtered = this.products.slice();
-    if (this.selectedCategory)
-      filtered = filtered.filter(
-        (p) => p.categoryName === this.selectedCategory
-      );
-    if (this.searchTerm)
-      filtered = filtered.filter((p) =>
-        p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    return filtered;
+  let filtered = this.products.filter((p: Product) =>
+    this.isCategoryActive(p.categoryName)
+  );
+
+  if (this.selectedCategory) {
+    filtered = filtered.filter(
+      (p: Product) => p.categoryName === this.selectedCategory
+    );
   }
+
+  if (this.searchTerm) {
+    filtered = filtered.filter((p: Product) =>
+      p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  return filtered;
+}
+
 
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.filteredProducts.length / this.pageSize));
@@ -84,8 +92,8 @@ export class StoreComponent implements OnInit {
     if (this.currentPage > 1) this.currentPage--;
   }
 
-  filterByCategory(category: string) {
-    this.selectedCategory = category;
+  filterByCategory(categoryName: string) {
+    this.selectedCategory = categoryName;
     this.currentPage = 1;
   }
 
@@ -309,5 +317,23 @@ Total: $${total.toFixed(2)}
     } catch {
       alert(msg);
     }
+  }
+
+  isProductActive(product: Product): boolean {
+    if (product.status === false) return false;
+
+    if ((product as any).categoryStatus === false) return false;
+
+    return true;
+  }
+
+  isCategoryActive(categoryName: string | null | undefined): boolean {
+    if (!categoryName) return false;
+
+    const cat = this.categories.find(
+      (c: Category) => c.categoryName === categoryName
+    );
+
+    return cat?.status === true;
   }
 }

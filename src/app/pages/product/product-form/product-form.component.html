@@ -13,7 +13,7 @@
             formControlName="productName"
           />
         </div>
-
+      
         <div class="col-md-6 my-3">
           <label class="form-label">Price</label>
           <input type="number" class="form-control" formControlName="price" />
@@ -50,21 +50,21 @@
           />
         </div>
 
-        <div class="col-md-6 my-3">
+        <!-- <div class="col-md-6 my-3">
           <label class="form-label">Status</label>
           <select class="form-select" formControlName="status">
             <option [ngValue]="true">Active</option>
             <option [ngValue]="false">Inactive</option>
           </select>
-        </div>
+        </div> -->
 
-        <div class="col-md-12 my-3">
+        <div class="col-md-6 my-3">
           <label class="form-label">Description</label>
-          <textarea
+          <input
             class="form-control"
             rows="5"
             formControlName="description"
-          ></textarea>
+          />
         </div>
 
         <div class="col d-flex justify-content-end">
